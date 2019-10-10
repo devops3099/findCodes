@@ -12,6 +12,8 @@ from subprocess import check_output
 global ccounter
 ccounter = 0
 
+#comment1
+
 #global ccounter_fileOpen
 #ccounter_fileOpen = 0
 # ccounter += 1
