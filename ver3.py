@@ -104,7 +104,7 @@ def outputOfDirCommandTXTFilesFunc():
 #=====TXT================================
 #get text from doc/docx file
 def getTextFromTXTFile(filename):
-    f = open(filename, 'r')
+	f = open(filename, 'r')
 	txtFile = f
 	f.close()
 	return txtFile
@@ -990,7 +990,8 @@ textSirius1 = Text(width=3, height=1, background = "old lace", foreground = "bla
 textSirius1.grid(row=0, column=3, columnspan=1, sticky=W)
 textSirius1Find = Text(width=30, height=1, background = "old lace", foreground = "black")
 textSirius1Find.grid(row=0, column=4)
-
+textSiriusFindLabel1 = Label(root, text='<-№ box/palet')
+textSiriusFindLabel1.grid(row=0, column=5, sticky=W)
 
 textSiriusLabel2 = Label(root, text='№ Строки:')
 textSiriusLabel2.grid(row=1, column=2, sticky=E)
@@ -998,7 +999,8 @@ textSirius2 = Text(width=3, height=1, background = "old lace", foreground = "bla
 textSirius2.grid(row=1, column=3, columnspan=1, sticky=W)
 textSirius2Find = Text(width=30, height=1, background = "old lace", foreground = "black")
 textSirius2Find.grid(row=1, column=4)
-
+textSiriusFindLabel2 = Label(root, text='<-№ box/palet')
+textSiriusFindLabel2.grid(row=1, column=5, sticky=W)
 
 textSiriusLabel3 = Label(root, text='№ Строки:')
 textSiriusLabel3.grid(row=2, column=2, sticky=E)
@@ -1006,7 +1008,8 @@ textSirius3 = Text(width=3, height=1, background = "old lace", foreground = "bla
 textSirius3.grid(row=2, column=3, columnspan=1, sticky=W)
 textSirius3Find = Text(width=30, height=1, background = "old lace", foreground = "black")
 textSirius3Find.grid(row=2, column=4)
-
+textSiriusFindLabel3 = Label(root, text='<-№ box/palet')
+textSiriusFindLabel3.grid(row=2, column=5, sticky=W)
 
 textSiriusLabel4 = Label(root, text='№ Строки:')
 textSiriusLabel4.grid(row=3, column=2, sticky=E)
@@ -1014,7 +1017,8 @@ textSirius4 = Text(width=3, height=1, background = "old lace", foreground = "bla
 textSirius4.grid(row=3, column=3, columnspan=1, sticky=W)
 textSirius4Find = Text(width=30, height=1, background = "old lace", foreground = "black")
 textSirius4Find.grid(row=3, column=4)
-
+textSiriusFindLabel4 = Label(root, text='<-№ box/palet')
+textSiriusFindLabel4.grid(row=3, column=5, sticky=W)
 
 textSiriusLabel5 = Label(root, text='№ Строки:')
 textSiriusLabel5.grid(row=4, column=2, sticky=E)
@@ -1022,7 +1026,8 @@ textSirius5 = Text(width=3, height=1, background = "old lace", foreground = "bla
 textSirius5.grid(row=4, column=3, columnspan=1, sticky=W)
 textSirius5Find = Text(width=30, height=1, background = "old lace", foreground = "black")
 textSirius5Find.grid(row=4, column=4)
-
+textSiriusFindLabel5 = Label(root, text='<-№ box/palet')
+textSiriusFindLabel5.grid(row=4, column=5, sticky=W)
 
 #==================================
 
@@ -1042,36 +1047,36 @@ nameForResultFile.grid(row=7, column=1, sticky=W)
 b1 = Button(text="Открыть источник кодов", command=openSourceFile)
 b1.grid(row=8, sticky=E)
 
-b2 = Button(text="Окрыть список номеров", command=openListFile)
-b2.grid(row=8, column=1, sticky=W)
+# b2 = Button(text="Окрыть список номеров", command=openListFile)
+# b2.grid(row=8, column=1, sticky=W)
 
-b3 = Button(text="сделать пездато!", command=justDoIt)
-b3.grid(row=8, column=2, sticky=W)
+# b3 = Button(text="сделать пездато!", command=justDoIt)
+# b3.grid(row=8, column=2, sticky=W)
 
-b4 = Button(text="сделать пездато! с коробками", command=justDoItBoxes)
-b4.grid(row=10, column=1, sticky=W)
+# b4 = Button(text="сделать пездато! с коробками", command=justDoItBoxes)
+# b4.grid(row=10, column=1, sticky=W)
 
-b5 = Button(text="сделать пездато! с палетами", command=justDoItPalettes)
-b5.grid(row=10, column=2, sticky=W)
+# b5 = Button(text="сделать пездато! с палетами", command=justDoItPalettes)
+# b5.grid(row=10, column=2, sticky=W)
 
-b6 = Button(text="Поиск по тексту ( коды )", command=justDoItFromGetText_Codes)
-b6.grid(row=11, column=1, sticky=W)
+# b6 = Button(text="Поиск по тексту ( коды )", command=justDoItFromGetText_Codes)
+# b6.grid(row=11, column=1, sticky=W)
 
-b7 = Button(text="Поиск по тексту ( +коробки )", command=justDoItFromGetText_Codes_Boxes)
-b7.grid(row=11, column=2, sticky=W)
+# b7 = Button(text="Поиск по тексту ( +коробки )", command=justDoItFromGetText_Codes_Boxes)
+# b7.grid(row=11, column=2, sticky=W)
 
-b8 = Button(text="Поиск по тексту ( коробки + палетты )", command=justDoItFromGetText_BoxesPalettes)
-b8.grid(row=11, column=4, sticky=W)
+# b8 = Button(text="Поиск по тексту ( коробки + палетты )", command=justDoItFromGetText_BoxesPalettes)
+# b8.grid(row=11, column=4, sticky=W)
 
 #====NEW=BUTTONS=ADD=DEL=LOAD=SAVE=================================================================================
 bLoadDB = Button(text="Load Database", command=openFileDB)
 bLoadDB.grid(row=13, column=1, sticky=W)
 
-bSaveDB = Button(text="Save To Database", command=saveCurrentTuple_1ToFileDB)
-bSaveDB.grid(row=13, column=2, sticky=W)
+bSaveDB = Button(text="___Save To Database___", command=saveCurrentTuple_1ToFileDB)
+bSaveDB.grid(row=11, column=2, sticky=W)
 
-bAddToDB = Button(text="Add To Database", command=justDoItFromGetText_BoxesPalettes)
-bAddToDB.grid(row=14, column=2, sticky=W)
+bAddToDB = Button(text="___Add To Database___", command=justDoItFromGetText_BoxesPalettes)
+bAddToDB.grid(row=12, column=2, sticky=W)
 
 bFindInTuple = Button(text="Find in Database \n(tuple_1)", command=findInTuple_1FromTextField)
 bFindInTuple.grid(row=13, column=4, sticky=W)
