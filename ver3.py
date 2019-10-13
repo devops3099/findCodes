@@ -1,4 +1,4 @@
-﻿# !/usr/bin/python3
+# !/usr/bin/python3
 #coding: UTF-8
 from tkinter import *
 from tkinter import filedialog as fd
@@ -44,7 +44,7 @@ def saveOnlyCodesFromFiles(filename):
 				listSource.append(j)
 
 	listSource.sort()
-		
+
 	fs = open(nameForSaveToTxt + '.txt', 'w')
 	for i in listSource:
 		ii = str(i)
@@ -53,7 +53,7 @@ def saveOnlyCodesFromFiles(filename):
 		for j in ii2:
 			iii = '\t' + j + '\n' #new code!
 			#iii = ii + '\n'
-			fs.write(iii)          
+			fs.write(iii)
 	fs.close()
 	f.close()
 	print('Opened ',filename, ' and saved to ', nameForSaveToTxt)
@@ -67,10 +67,11 @@ def commandForButton_saveOnlyCodes():
 #Find names of all doc/docx files
 #=====DOC================================
 def outputOfDirCommandDOCFilesFunc():
-	outputOfDirCommand = check_output(['dir','/B'], shell=True)
+	outputOfDirCommand = check_output('ls', shell=True)
+        #outputOfDirCommand = check_output(['dir','/B'], shell=True)
 	print('\n!!!!!', outputOfDirCommand)
 	listOfDocFilesNames = []
-	b = re.findall(r'\d{1,6}.doc\w?', str(a))
+	b = re.findall('\d{1,6}.doc\w?', str(outputOfDirCommand))
 	listOfDocFilesNames += b
 	print('\n List DOC/DOCX Files = ',listOfDocFilesNames)
 	return listOfDocFilesNames
@@ -78,11 +79,11 @@ def outputOfDirCommandDOCFilesFunc():
 #=====DOC================================
 #get text from doc/docx file
 def getTextFromDocFile(filename):
-    doc = docx.Document(filename)
-    fullText = []
-    for para in doc.paragraphs:
-        fullText.append(para.text)
-    return '\n'.join(fullText)
+        doc = docx.Document(filename)
+        fullText = []
+        for para in doc.paragraphs:
+                fullText.append(para.text)
+        return '\n'.join(fullText)
 #=======DOC==============================
 def openTakeTextFromDOCFile(listWithNamesOfDOCFiles):
 	for i in listWithNamesOfDOCFiles:
@@ -94,20 +95,25 @@ def openTakeTextFromDOCFile(listWithNamesOfDOCFiles):
 
 #====TXT=================================
 def outputOfDirCommandTXTFilesFunc():
-	outputOfDirCommand = check_output(['dir','/B'], shell=True)
-	print('\n!!!!!', outputOfDirCommand)
-	listOfTXTFilesNames = []
-	b = re.findall(r'\d{1,6}.txt', str(a))
-	listOfDocFilesNames += b
-	print('\n List TXT Files = ',listOfTXTFilesNames)
-	return listOfTXTFilesNames
+        outputOfDirCommand = check_output('ls', shell=True)
+        #outputOfDirCommand = check_output(['dir','/B'], shell=True)
+        print('\n!!!!!', outputOfDirCommand)
+        listOfTXTFilesNames = []
+        b = re.findall(r'\d{1,6}.txt', str(outputOfDirCommand))
+        listOfTXTFilesNames += b
+        print('\n List TXT Files = ',listOfTXTFilesNames)
+        return listOfTXTFilesNames
 #=====TXT================================
 #get text from doc/docx file
 def getTextFromTXTFile(filename):
-	f = open(filename, 'r')
-	txtFile = f
-	f.close()
-	return txtFile
+        f = open(filename, 'r')
+        txtFile = []
+        txtStringg = ''
+        for i in f:
+                txtFile.append(i)
+                txtStringg += i
+        f.close()
+        return txtStringg #txtFile
 #========TXT=============================
 def openTakeTextFromTXTFile(listForNamesOfTXTFiles):
 	for i in listForNamesOfTXTFiles:
@@ -136,13 +142,13 @@ def insertText():
     text.insert(1.0, s)
     f.close()
 
-# "Save To Database" 
+# "Save To Database"
 def saveCurrentTuple_1ToFileDB():
     file_name = fd.asksaveasfilename(filetypes=(("DataBase files", "*.pickle"),
                                                 ("All files", "*.*") ))
     lenTuple_1 = len(tuple_1)
     if lenTuple_1 > 0:
-        funcForSaveCurrentTuple_1ToFileDB(tuple_1, file_name)    
+        funcForSaveCurrentTuple_1ToFileDB(tuple_1, file_name)
     else:
         print('tuple_1 не сформирована или пустая!')
     # f = open(file_name, 'w')
@@ -150,7 +156,7 @@ def saveCurrentTuple_1ToFileDB():
     # f.write(s)
     # f.close()
 
-def funcForSaveCurrentTuple_1ToFileDB(tuple_1, name):    
+def funcForSaveCurrentTuple_1ToFileDB(tuple_1, name):
     with open(name, 'wb') as fSsaveToFile:
         pickle.dump(tuple_1, fSsaveToFile)
 
@@ -227,22 +233,22 @@ def functionForTryAddToTuple( palet, box, code, x ):
             x[palet][box] = []
             x[palet][box] += [code]
     #print('!!!!!!!   lengthOfTuple_1 = ', len(tuple_1))
-            
+
 #==Sort-Codes-in-tuple_1===========================================================
 def sortCodesInTuple_1(tuple_1):
         for i in tuple_1:
             for j in tuple_1[i]:
                 tuple_1[i][j].sort(reverse=True)
         print('TUPLE_1 IS SORTED')
-            
+
 #=========================================================================
 
 listForFindedCodesToDelFromTuple_1 = []
-# list for finded codes to delete from tuple_1 // methods: add, clear, 
+# list for finded codes to delete from tuple_1 // methods: add, clear,
 def addToListForFindedCodesToDeleteFromTuple_1(valueForAddTo,listForFindedCodesToDelFromTuple_1):
     listForFindedCodesToDelFromTuple_1.append(valueForAddTo)
 
-def delListForFindedCodesToDeleteFromTuple_1(valueForAddTo,listForFindedCodesToDelFromTuple_1):    
+def delListForFindedCodesToDeleteFromTuple_1(valueForAddTo,listForFindedCodesToDelFromTuple_1):
     listForFindedCodesToDelFromTuple_1.clear()
 
 
@@ -276,7 +282,7 @@ def openSourceFile():
         print('Added to tuple_1 ')
         print('len(tuple_1) - ', len(tuple_1))
         fsource.close()
-        
+
         tuple_1.pop(None)
         print(' key None has been deleted from tuple_1')
         print('len(tuple_1) - ', len(tuple_1))
@@ -293,7 +299,7 @@ def openFileDB():
     else:
         print("nameOfFileDB = ", nameOfFileDB)
         #del all_from_FileDB[:]
-        
+
         with open(nameOfFileDB, 'rb') as fLoadFromFile:
             data_new = pickle.load(fLoadFromFile)
         global tuple_1
@@ -308,7 +314,7 @@ def findInTuple_1FromTextField():
         print('_____LEN tuple_1 = ',len(tuple_1))
     else:
         print('1111 LEN tuple_1 = ',len(tuple_1))
-        
+
     #del all_list[:]
 
     gTFF = re.findall(r'\w+', getTextFromField())
@@ -320,10 +326,10 @@ def findInTuple_1FromTextField():
         strForCurrent = ''
         if i in tuple_1:# if palet is finded
             boxList = []
-            
+
             for box in tuple_1[i]:
                 boxList.append(i)
-            
+
             for h in tuple_1[i]:
                 for g in tuple_1[str(i)][str(h)]:
                     functionForTryAddToTuple( i, h , g, arrForZhazhda025 )
@@ -342,7 +348,7 @@ def findInTuple_1FromTextField():
         # if strForCurrent != '':
             # print(strForCurrent)
     print('len(arrForZhazhda025) = ', len(arrForZhazhda025))
-    
+
     currentDate = datetime.datetime.now()
     fullDate = str(currentDate.year) + str(currentDate.month) + str(currentDate.day) + " " + str(currentDate.hour) + "-" + str(currentDate.minute) + "-" + str(currentDate.second)
 
@@ -373,7 +379,7 @@ def findInTuple_1FromTextField():
 
     print("\nВСЕГО :", countResultArr, ' ', len(arrForZhazhda025))
 
-    fResult.close()        
+    fResult.close()
 
 def findInTuple_1FromTextFieldSirius():
     #ccounter = 0
@@ -383,7 +389,7 @@ def findInTuple_1FromTextFieldSirius():
         print('_____LEN tuple_1 = ',len(tuple_1))
     else:
         print('1111 LEN tuple_1 = ',len(tuple_1))
-        
+
     #del all_list[:]
 
     gTFF = re.findall(r'\w+', getTextFromField())
@@ -395,10 +401,10 @@ def findInTuple_1FromTextFieldSirius():
         strForCurrent = ''
         if i in tuple_1:# if palet is finded
             boxList = []
-            
+
             for box in tuple_1[i]:
                 boxList.append(i)
-            
+
             for h in tuple_1[i]:
                 for g in tuple_1[str(i)][str(h)]:
                     functionForTryAddToTuple( i, h , g, arrForZhazhda025 )
@@ -417,7 +423,7 @@ def findInTuple_1FromTextFieldSirius():
         # if strForCurrent != '':
             # print(strForCurrent)
     print('len(arrForZhazhda025) = ', len(arrForZhazhda025))
-    
+
     currentDate = datetime.datetime.now()
     fullDate = str(currentDate.year) + str(currentDate.month) + str(currentDate.day) + " " + str(currentDate.hour) + "-" + str(currentDate.minute) + "-" + str(currentDate.second)
 
@@ -448,7 +454,7 @@ def findInTuple_1FromTextFieldSirius():
 
     print("\nВСЕГО :", countResultArr, ' ', len(arrForZhazhda025))
 
-    fResult.close()        
+    fResult.close()
 
 def findInTuple_1FromTextFieldSiriusNew():
     #ccounter = 0
@@ -460,7 +466,7 @@ def findInTuple_1FromTextFieldSiriusNew():
         print('1111 LEN tuple_1 = ',len(tuple_1))
 
     #del all_list[:]
-    
+
     gTFF = re.findall(r'\w+', getTextFromField())
 
     arrForZhazhda025 = {None:{None:[None]}}
@@ -471,10 +477,10 @@ def findInTuple_1FromTextFieldSiriusNew():
 		# if palet is finded
         if i in tuple_1:
             boxList = []
-            
+
             for box in tuple_1[i]:
                 boxList.append(i)
-            
+
             for h in tuple_1[i]:
                 for g in tuple_1[str(i)][str(h)]:
                     functionForTryAddToTuple( i, h , g, arrForZhazhda025 )
@@ -496,7 +502,7 @@ def findInTuple_1FromTextFieldSiriusNew():
 
         currentDate = datetime.datetime.now()
         fullDate = str(currentDate.year) + str(currentDate.month) + str(currentDate.day) + " " + str(currentDate.hour) + "-" + str(currentDate.minute) + "-" + str(currentDate.second)
-        
+
         fileForResult = getTextForResultFile()
         if fileForResult != '':
             fResult = open(fileForResult + " " + str(len(arrForZhazhda025)) + " " + fullDate + '.txt', "w")
@@ -1097,5 +1103,7 @@ bTryNewButtonsNumber.grid(row=12, column=4, sticky=W)
 bTryNewButtonsSearch = Button(text="bTryNewButtons SEARCH \n(tuple_1)", command=commandSiriusFind)
 bTryNewButtonsSearch.grid(row=11, column=4, sticky=W)
 #====================#====================#====================
+
+
 
 root.mainloop()
