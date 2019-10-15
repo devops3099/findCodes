@@ -119,7 +119,7 @@ new_list = []
 
 #f = open('forTurple.txt', 'r')
 #f = open('commonUpdated.txt', 'r')
-f = open('123.txt', 'r')
+f = open('124.txt', 'r')
 
 
 for i in list_1:
