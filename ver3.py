@@ -67,14 +67,14 @@ def commandForButton_saveOnlyCodes():
 #Find names of all doc/docx files
 #=====DOC================================
 def outputOfDirCommandDOCFilesFunc():
-	outputOfDirCommand = check_output('ls', shell=True)
-        #outputOfDirCommand = check_output(['dir','/B'], shell=True)
-	print('\n!!!!!', outputOfDirCommand)
-	listOfDocFilesNames = []
-	b = re.findall('\d{1,6}.doc\w?', str(outputOfDirCommand))
-	listOfDocFilesNames += b
-	print('\n List DOC/DOCX Files = ',listOfDocFilesNames)
-	return listOfDocFilesNames
+        #outputOfDirCommand = check_output('ls', shell=True)
+        outputOfDirCommand = check_output(['dir','/B'], shell=True)
+        print('\n!!!!!', outputOfDirCommand)
+        listOfDocFilesNames = []
+        b = re.findall('\d{1,6}.doc\w?', str(outputOfDirCommand))
+        listOfDocFilesNames += b
+        print('\n List DOC/DOCX Files = ',listOfDocFilesNames)
+        return listOfDocFilesNames
 
 #=====DOC================================
 #get text from doc/docx file
@@ -95,8 +95,8 @@ def openTakeTextFromDOCFile(listWithNamesOfDOCFiles):
 
 #====TXT=================================
 def outputOfDirCommandTXTFilesFunc():
-        outputOfDirCommand = check_output('ls', shell=True)
-        #outputOfDirCommand = check_output(['dir','/B'], shell=True)
+        #outputOfDirCommand = check_output('ls', shell=True)
+        outputOfDirCommand = check_output(['dir','/B'], shell=True)
         print('\n!!!!!', outputOfDirCommand)
         listOfTXTFilesNames = []
         b = re.findall(r'\d{1,6}.txt', str(outputOfDirCommand))
@@ -257,6 +257,8 @@ def delListForFindedCodesToDeleteFromTuple_1(valueForAddTo,listForFindedCodesToD
 def openSourceFile():
     #global ccounter
     global fileForSource
+    global tuple_1
+    tuple_1 = '0'
     tuple_1 = {None:{None:[None]}}
     #global ccounter_fileOpen
     fileForSource = "0"
@@ -322,31 +324,8 @@ def findInTuple_1FromTextField():
     arrForZhazhda025 = {None:{None:[None]}}
     #del arrForZhazhda025[:]
     #"""
-    for i in gTFF:
-        strForCurrent = ''
-        if i in tuple_1:# if palet is finded
-            boxList = []
-
-            for box in tuple_1[i]:
-                boxList.append(i)
-
-            for h in tuple_1[i]:
-                for g in tuple_1[str(i)][str(h)]:
-                    functionForTryAddToTuple( i, h , g, arrForZhazhda025 )
-            #arrForZhazhda025.append(tuple_1[i])
-            strForCurrent = i + ' is finded! '
-        else:
-            for j in tuple_1:
-                if i in tuple_1[j]:
-                    for g in tuple_1[j][i]:
-                        functionForTryAddToTuple( j, i , g, arrForZhazhda025 )
-                    #arrForZhazhda025.append(tuple_1[i])
-                    strForCurrent = i + ' is finded! '
-                    break
-                else:
-                    strForCurrent = 'No such {} box or palet'.format(i)
-        # if strForCurrent != '':
-            # print(strForCurrent)
+    funcForFillarrForZhazhda025(gTFF, arrForZhazhda025)
+    
     print('len(arrForZhazhda025) = ', len(arrForZhazhda025))
 
     currentDate = datetime.datetime.now()
@@ -456,6 +435,26 @@ def findInTuple_1FromTextFieldSirius():
 
     fResult.close()
 
+def getFirstColumnForSearchSIRIUS( firstColumn ):
+        textForFirstColumn = firstColumn.get(1.0, END)
+        if textForFirstColumn:
+                print('textForFirstColumn = ', textForFirstColumn)
+                return textForFirstColumn
+
+def getTextForSearchingSIRIUS( forSearching ):
+        textForSearching = forSearching.get(1.0, END)
+        if textForSearching:
+                print('textForSearching = ', textForSearching)
+                return textForSearching
+
+def listTuple_1_AllValuesAndKeys(arrForZhazhda025):
+    for i in arrForZhazhda025:
+        print('\n', i, ' - ', len(arrForZhazhda025[i]))
+        for j in arrForZhazhda025[i]:
+            print(' ____', j ,'___', len(arrForZhazhda025[i][j]))
+            for k in arrForZhazhda025[i][j]:
+                print('=========', k)
+
 def findInTuple_1FromTextFieldSiriusNew():
     #ccounter = 0
     #all_list = []       #ALL FILE list
@@ -467,50 +466,27 @@ def findInTuple_1FromTextFieldSiriusNew():
 
     #del all_list[:]
 
-    gTFF = re.findall(r'\w+', getTextFromField())
+    gTFF = re.findall(r'\w+', getTextForSearchingSIRIUS( textSirius1Find ))
+    #gTFF = []
 
     arrForZhazhda025 = {None:{None:[None]}}
+    funcForFillarrForZhazhda025(gTFF, arrForZhazhda025)
     #del arrForZhazhda025[:]
     #"""
-    for i in gTFF:
-        strForCurrent = ''
-		# if palet is finded
-        if i in tuple_1:
-            boxList = []
 
-            for box in tuple_1[i]:
-                boxList.append(i)
+    print('len(arrForZhazhda025) = ', len(arrForZhazhda025))
 
-            for h in tuple_1[i]:
-                for g in tuple_1[str(i)][str(h)]:
-                    functionForTryAddToTuple( i, h , g, arrForZhazhda025 )
-            #arrForZhazhda025.append(tuple_1[i])
-            strForCurrent = i + ' is finded! '
-        else:
-            for j in tuple_1:
-                if i in tuple_1[j]:
-                    for g in tuple_1[j][i]:
-                        functionForTryAddToTuple( j, i , g, arrForZhazhda025 )
-                        #arrForZhazhda025.append(tuple_1[i])
-                        strForCurrent = i + ' is finded! '
-                        break
-                    else:
-                        strForCurrent = 'No such {} box or palet'.format(i)
-    # if strForCurrent != '':
-    # print(strForCurrent)
-    #print('len(arrForZhazhda025) = ', len(arrForZhazhda025))
+    currentDate = datetime.datetime.now()
+    fullDate = str(currentDate.year) + "_" + str(currentDate.month) + "_" + str(currentDate.day) + " " + str(currentDate.hour) + "-" + str(currentDate.minute) + "-" + str(currentDate.second)
 
-        currentDate = datetime.datetime.now()
-        fullDate = str(currentDate.year) + str(currentDate.month) + str(currentDate.day) + " " + str(currentDate.hour) + "-" + str(currentDate.minute) + "-" + str(currentDate.second)
+    fileForResult = getTextForResultFile()
+    if fileForResult != '':
+        fResult = open(fileForResult + " " + str(len(arrForZhazhda025)) + " " + fullDate + '.txt', "w")
+    else:
+        fileForResult = 'result'
+        fResult = open(fileForResult + " " + str(len(arrForZhazhda025)) + " " + fullDate + '.txt', "w")
 
-        fileForResult = getTextForResultFile()
-        if fileForResult != '':
-            fResult = open(fileForResult + " " + str(len(arrForZhazhda025)) + " " + fullDate + '.txt', "w")
-        else:
-            fileForResult = 'result'
-            fResult = open(fileForResult + " " + str(len(arrForZhazhda025)) + " " + fullDate + '.txt', "w")
-
-    valueForFirstColumn = getTextForFirstColumn()
+    valueForFirstColumn = getFirstColumnForSearchSIRIUS( textSirius1 )
 
     #print("valueForFirstColumn = ", valueForFirstColumn)
     arrForZhazhda025.pop(None)
@@ -524,19 +500,53 @@ def findInTuple_1FromTextFieldSiriusNew():
                 #ii = str(i)
                 #rtrt = re.findall(r'\w+', ii)
                 #iii = '\t' + h + '\n' #new code!
-                iii = valueForFirstColumn[:-1] + '||' + h + '||' + j + '||' + i + '\n'
+                if i == 'noThirdColumn':
+                        iii = valueForFirstColumn[:-1] + '||' + h + '||' + j + '\n'
+                else:
+                        iii = valueForFirstColumn[:-1] + '||' + h + '||' + j + '||' + i + '\n'
                 fResult.write(iii)
     #"""
+
 
     print("\nВСЕГО :", countResultArr, ' ', len(arrForZhazhda025))
 
     fResult.close()
+    #listTuple_1_AllValuesAndKeys(arrForZhazhda025)
+    print('\n________________________________')
+    #listTuple_1_AllValuesAndKeys(tuple_1)
 
+def funcForFillarrForZhazhda025(listGTFF, arrZhazhda):
+        for i in listGTFF:
+                strForCurrent = ''
+                if i in tuple_1:# if palet is finded
+                        for h in tuple_1[i]:
+                                for g in tuple_1[str(i)][str(h)]:
+                                        functionForTryAddToTuple( i, h , g, arrZhazhda )
+                                        #arrZhazhda.append(tuple_1[i])
+                                        strForCurrent = i + ' is finded! '
+                else:
+                        for j in tuple_1:
+                                if i in tuple_1[j]:
+                                        for g in tuple_1[j][i]:
+                                                functionForTryAddToTuple( j, i , g, arrZhazhda )
+                                else:
+                                        strForCurrent = 'No such {} box or palet'.format(i)
+                r = 'noThirdColumn'
+                for g in tuple_1[r]:
+                        if g == i:
+                                for cc in tuple_1[r][g]:
+                                        functionForTryAddToTuple( r, g , cc, arrZhazhda )
+                                #arrZhazhda.append(tuple_1[i])
+                                strForCurrent = i + ' is finded! '
+                                                
+        # if strForCurrent != '':
+            # print(strForCurrent)
 
 def openListFile():
-    global fileForList
-    #fileForList = "0"
-    fileForList = fd.askopenfilename()
+        global fileForList
+        #fileForList = "0"
+        fileForList = fd.askopenfilename()
+
 #+++++++++++++++++++++++++++++++++++++++++++++++++++
 # Сделать пездато! (поиск по 1источнику из файла списка => вывод только КОДЫ
 def justDoIt():
@@ -937,11 +947,57 @@ def getTextForSIRIUSFind(searchString):
     print(tSOF[:-1])
     return tSOF[:-1]
 
+global listFindedResultSIRIUS
+listFindedResultSIRIUS = []
+def getAllTextForSearchSIRIUStest():
+        textForFirstColumn1 = textSirius1.get(1.0, END)
+        textForSearching1 = textSirius1Find.get(1.0, END)
+        textForFirstColumn2 = textSirius2.get(1.0, END)
+        textForSearching2 = textSirius2Find.get(1.0, END)
+        textForFirstColumn3 = textSirius3.get(1.0, END)
+        textForSearching3 = textSirius3Find.get(1.0, END)
+        textForFirstColumn4 = textSirius4.get(1.0, END)
+        textForSearching4 = textSirius4Find.get(1.0, END)
+        textForFirstColumn5 = textSirius5.get(1.0, END)
+        textForSearching5 = textSirius5Find.get(1.0, END)
+
+
+'''
+getAllTextForSearchSIRIUS(textForFirstColumn1, textForSearching1)
+getAllTextForSearchSIRIUS(textForFirstColumn2, textForSearching2)
+getAllTextForSearchSIRIUS(textForFirstColumn3, textForSearching3)
+getAllTextForSearchSIRIUS(textForFirstColumn4, textForSearching4)
+getAllTextForSearchSIRIUS(textForFirstColumn5, textForSearching5)
+'''
 def commandSiriusString():
     getTextForSIRIUSstring(textSirius1)
 
 def commandSiriusFind():
     getTextForSIRIUSFind(textSirius1Find)
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++
+#name for RESULT file + save RESULT file
+def openResultFileAndSaveForSIRIUS( arrayWithStrings, lenArray ):
+    fileForResult = getTextForResultFile()
+
+    if fileForResult != '':
+        fResult = open(fileForResult + " " + lenArray + " " + dateCounter() + '.txt', "w")
+    else:
+        fileForResult = 'result'
+        fResult = open(fileForResult + " " + lenArray + " " + dateCounter() + '.txt', "w")
+
+    valueForFirstColumn = getTextForFirstColumn()
+
+    #iii = ''
+
+    for i in arrayWithStrings:
+        ii = str(i)
+        #iii = '\t' + ii + '\n' #new code!
+        iii = valueForFirstColumn[:-1] + ii + '\n'
+        fResult.write(iii)
+
+    fResult.close()
+#+++++++++++++++++++++++++++++++++++++++++++++++++++
 #+++++++++++++++++++++++++++++++++++++++++++++++++++
 #name for RESULT file + save RESULT file
 def openResultFileAndSave( arrayWithStrings, lenArray ):
@@ -1097,7 +1153,7 @@ bDelFromDB.grid(row=10, column=1, sticky=W)
 
 
 #====================#====================#====================
-bTryNewButtonsNumber = Button(text="bTryNewButtons number string \n(tuple_1)", command=commandSiriusString)
+bTryNewButtonsNumber = Button(text="Find for SIRIUS NEW", command=findInTuple_1FromTextFieldSiriusNew)
 bTryNewButtonsNumber.grid(row=12, column=4, sticky=W)
 
 bTryNewButtonsSearch = Button(text="bTryNewButtons SEARCH \n(tuple_1)", command=commandSiriusFind)
