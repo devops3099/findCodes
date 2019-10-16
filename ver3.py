@@ -293,7 +293,7 @@ def openFileDB():
     if nameOfFileDB == '':
         print("|Файл с базой данных не выбран!|")
     else:
-        print('|nameOfFileDB = {0}|'format(nameOfFileDB))
+        print('|nameOfFileDB = {0}|'.format(nameOfFileDB))
         #del all_from_FileDB[:]
         with open(nameOfFileDB, 'rb') as fLoadFromFile:
             data_new = pickle.load(fLoadFromFile)
@@ -305,6 +305,7 @@ def openFileDB():
 #=========================================================================
 def findInTuple_1FromTextField():
     #ccounter = 0
+    global arrForZhazhda025
     #all_list = []       #ALL FILE list
     if len(tuple_1) < 2:
         #return 'Tuple_1 is empty!'
@@ -333,7 +334,7 @@ def findInTuple_1FromTextField():
         fileForResult = 'result'
         fResult = open(fileForResult + " " + str(len(arrForZhazhda025)) + " " + fullDate + '.txt', "w")
 
-    valueForFirstColumn = getTextForFirstColumn()
+    #valueForFirstColumn = getTextForFirstColumn()
 
     #print("valueForFirstColumn = ", valueForFirstColumn)
     arrForZhazhda025.pop(None)
@@ -438,7 +439,7 @@ def getFirstColumnForSearchSIRIUS( firstColumn ):
         textForFirstColumn = firstColumn.get(1.0, END)
         if textForFirstColumn:
                 print('textForFirstColumn = ', textForFirstColumn)
-                return textForFirstColumn
+                return textForFirstColumn[:-1]
 
 def getTextForSearchingSIRIUS( forSearching ):
         textForSearching = forSearching.get(1.0, END)
@@ -456,35 +457,42 @@ def listTuple_1_AllValuesAndKeys(arrForZhazhda025):
 
 def forCycleAllSearchFieldSIRIUS(varGTFF, varTextSiriusFind, arrZhazhda,dictDelete):
         varGTFF = re.findall(r'\w+', getTextForSearchingSIRIUS( varTextSiriusFind ))
-        funcForFillarrForZhazhda025(varGTFF, arrZhazhda, dictDelete )
+        funcForFillarrForZhazhda025(varGTFF, dictDelete )
 
-def SAVE_TO_FILE_FromFindedList(fResult, arrZhazhda):
-        if fResult:
-                if arrZhazhda:
-                        #valueForFirstColumn = getFirstColumnForSearchSIRIUS( varTextSiriusX )
+'''
+01000000018713119349211524
+01000000018713119348900934
+01000000018723119000012056
+01000000018713119348900935
+01000000018713119349627272
+'''
+def SAVE_TO_FILE_FromFindedList(ffileOPened, ListALL):
+        print('\n\n LIST ALL\n++++++++++++++++++\n', ListALL)
+        if ffileOPened:
+                if ListALL:
                         countResultArr = 0
-                        for kkey in arrZhazhda:
-                                for i in arrZhazhda[kkey]:
-                                        for j in arrZhazhda[kkey][i]:
-                                                for h in arrZhazhda[kkey][i][j]:
+                        for kkey in ListALL:
+                                for i in ListALL[kkey]:
+                                        for j in ListALL[kkey][i]:
+                                                for h in ListALL[kkey][i][j]:
                                                         countResultArr += 1
-                                                        #ii = str(i)
-                                                        #rtrt = re.findall(r'\w+', ii)
                                                         #iii = '\t' + h + '\n' #new code!
                                                         if i == 'noThirdColumn':
-                                                                iii = kkey + '||' + h + '||' + j + '\n'
+                                                                iii = str(kkey) + '||' + h + '||' + j + '\n'
                                                         else:
-                                                                iii = [kkey] + '||' + h + '||' + j + '||' + i + '\n'
-                                                        fResult.write(iii)
-                                print("\n", kkey, " ВСЕГО :", countResultArr, ' ', len(arrZhazhda[kkey]))
-                                #print("\nВСЕГО :", countResultArr, ' ', len(arrZhazhda[kkey]))
-                                fResult.close()
-                                #listTuple_1_AllValuesAndKeys(arrZhazhda)
+                                                                iii = str(kkey) + '||' + h + '||' + j + '||' + i + '\n'
+                                                        ffileOPened.write(iii)
+                                print("\n", str(kkey), " ВСЕГО :", countResultArr, ' ', len(ListALL[kkey]))
+                                #print("\nВСЕГО :", countResultArr, ' ', len(ListALL[kkey]))
+                                
+                                #listTuple_1_AllValuesAndKeys(ListALL)
                                 print('\n________________________________')
                 else:
                         print('|СПИСОК НАЙДЕННОГО ПУСТ|')
+                ffileOPened.close()
         else:
                 print('|Файл для сохранения не открыт|')
+        
 
 
 def copyToListForFindedResultsSIRIUS(whatToCopy, varTextSiriusX):
@@ -492,15 +500,18 @@ def copyToListForFindedResultsSIRIUS(whatToCopy, varTextSiriusX):
         #listForFindedResults = {}
         whatFirstColumn = getFirstColumnForSearchSIRIUS( varTextSiriusX )
         listForFindedResults[whatFirstColumn] = whatToCopy
-        
-def findInTuple_1FromTextFieldSiriusNew():# main for NEW find SIRIUS
+
+#_______________________________________________________________________________________________________
+# main for NEW find SIRIUS# main for NEW find SIRIUS# main for NEW find SIRIUS# main for NEW find SIRIUS
+def findInTuple_1FromTextFieldSiriusNew():
+        global listForFindedResults
         global arrForZhazhda025
         if len(tuple_1) < 2:
                 print('_____LEN tuple_1 = ',len(tuple_1))
         else:
                 print('1111 LEN tuple_1 = ',len(tuple_1))
 
-        
+        global dictForDelete
         arrForZhazhda025 = {None:{None:[None]}}
         dictForDelete = {None:{None:[None]}}
         listForFindedResults = {}
@@ -508,31 +519,46 @@ def findInTuple_1FromTextFieldSiriusNew():# main for NEW find SIRIUS
         gTFF = []
         #arrZhazhda list for finded CODES + PALS + BOXES (arrForZhazhda025)
         forCycleAllSearchFieldSIRIUS(gTFF, textSirius1Find, arrForZhazhda025, dictForDelete)
+        copyToListForFindedResultsSIRIUS(arrForZhazhda025, textSirius1)
         
-        copyToListForFindedResultsSIRIUS(whatToCopy, textSirius1)
+        forCycleAllSearchFieldSIRIUS(gTFF, textSirius2Find, arrForZhazhda025, dictForDelete)
+        copyToListForFindedResultsSIRIUS(arrForZhazhda025, textSirius2)
+
+        forCycleAllSearchFieldSIRIUS(gTFF, textSirius3Find, arrForZhazhda025, dictForDelete)
+        copyToListForFindedResultsSIRIUS(arrForZhazhda025, textSirius3)
+
+        forCycleAllSearchFieldSIRIUS(gTFF, textSirius4Find, arrForZhazhda025, dictForDelete)
+        copyToListForFindedResultsSIRIUS(arrForZhazhda025, textSirius4)
+
+        forCycleAllSearchFieldSIRIUS(gTFF, textSirius5Find, arrForZhazhda025, dictForDelete)
+        copyToListForFindedResultsSIRIUS(arrForZhazhda025, textSirius5)
         
         print('len(arrForZhazhda025) = ', len(arrForZhazhda025))
+        print('len(listForFindedResults) = ', len(listForFindedResults))
 
         currentDate = datetime.datetime.now()
         fullDate = str(currentDate.year) + "_" + str(currentDate.month) + "_" + str(currentDate.day) + " " + str(currentDate.hour) + "-" + str(currentDate.minute) + "-" + str(currentDate.second)
 
         fileForResult = getTextForResultFile()
         if fileForResult != '':
-                fResult = open(fileForResult + " " + str(len(arrForZhazhda025)) + " " + fullDate + '.txt', "w")
+                fResult = open(fileForResult + " " + str(len(listForFindedResults)) + " " + fullDate + '.txt', "w")
+                SAVE_TO_FILE_FromFindedList(fResult, listForFindedResults)
         else:
                 fileForResult = 'result'
-                fResult = open(fileForResult + " " + str(len(arrForZhazhda025)) + " " + fullDate + '.txt', "w")
+                fResult = open(fileForResult + " " + str(len(listForFindedResults)) + " " + fullDate + '.txt', "w")
+                SAVE_TO_FILE_FromFindedList(fResult, listForFindedResults)
 
-        arrForZhazhda025.pop(None)
-        dictForDelete.pop(None)
+##        arrForZhazhda025.pop(None)
+##        dictForDelete.pop(None)
         print('LEN arrForZhazhda025 = \n', len(arrForZhazhda025))
         #print('arrForZhazhda025 = \n', arrForZhazhda025)
         
-        
-        SAVE_TO_FILE_FromFindedList(fResult, listForFindedResults))
+##        SAVE_TO_FILE_FromFindedList(fResult, listForFindedResults)
+#=========================================================================
 
 def funcForFillarrForZhazhda025(listGTFF, arrDelete):#arrZhazhda list for finded CODES + PALS + BOXES (arrForZhazhda025)
         global arrForZhazhda025
+        global dictForDelete
         arrForZhazhda025 = {None:{None:[None]}}
         for i in listGTFF:
                 strForCurrent = ''
@@ -559,6 +585,8 @@ def funcForFillarrForZhazhda025(listGTFF, arrDelete):#arrZhazhda list for finded
                                         functionForTryAddToTuple( r, g , cc, arrDelete )
                                 #arrZhazhda.append(tuple_1[i])
                                 strForCurrent = i + ' is finded! '
+        arrForZhazhda025.pop(None)
+##        dictForDelete.pop(None)
                                                 
         # if strForCurrent != '':
             # print(strForCurrent)
@@ -570,14 +598,16 @@ def getTextForResultFile():
 #+++++++++++++++++++++++++++++++++++++++++++++++++++
 # save text for SIRIUS number strings and values for searching
 def getTextForSIRIUSstring(numberOfString):
-    nOS = numberOfString.get(1.0, END)
-    print(nOS[:-1])
-    return nOS[:-1]
-
+        nOS = numberOfString.get(1.0, END)
+        if nOS:
+                print(nOS[:-1])
+                return nOS[:-1]
+        
 def getTextForSIRIUSFind(searchString):
-    tSOF = searchString.get(1.0, END)
-    print(tSOF[:-1])
-    return tSOF[:-1]
+        tSOF = searchString.get(1.0, END)
+        if tSoF:
+                print(tSOF[:-1])
+                return tSOF[:-1]
 
 global listFindedResultSIRIUS
 listFindedResultSIRIUS = []
@@ -608,34 +638,6 @@ def commandSiriusFind():
     getTextForSIRIUSFind(textSirius1Find)
 #+++++++++++++++++++++++++++++++++++++++++++++++++++
 #+++++++++++++++++++++++++++++++++++++++++++++++++++
-#name for RESULT file + save RESULT file
-def openResultFileAndSaveForSIRIUS( arrayWithStrings, lenArray ):
-    fileForResult = getTextForResultFile()
-
-    if fileForResult != '':
-        fResult = open(fileForResult + " " + lenArray + " " + dateCounter() + '.txt', "w")
-    else:
-        fileForResult = 'result'
-        fResult = open(fileForResult + " " + lenArray + " " + dateCounter() + '.txt', "w")
-
-    valueForFirstColumn = getTextForFirstColumn()
-
-    #iii = ''
-
-    for i in arrayWithStrings:
-        ii = str(i)
-        #iii = '\t' + ii + '\n' #new code!
-        iii = valueForFirstColumn[:-1] + ii + '\n'
-        fResult.write(iii)
-
-    fResult.close()
-#+++++++++++++++++++++++++++++++++++++++++++++++++++
-
-def openListFile():
-        global fileForList
-        #fileForList = "0"
-        fileForList = fd.askopenfilename()
-
 #+++++++++++++++++++++++++++++++++++++++++++++++++++
 # Сделать пездато! (поиск по папке среди *.doc => вывод только КОДЫ
 def justDoIt():
@@ -666,28 +668,6 @@ def getTextForFirstColumn():
     return ff
 #+++++++++++++++++++++++++++++++++++++++++++++++++++
 
-#+++++++++++++++++++++++++++++++++++++++++++++++++++
-#name for RESULT file + save RESULT file
-def openResultFileAndSave( arrayWithStrings, lenArray ):
-    fileForResult = getTextForResultFile()
-
-    if fileForResult != '':
-        fResult = open(fileForResult + " " + lenArray + " " + dateCounter() + '.txt', "w")
-    else:
-        fileForResult = 'result'
-        fResult = open(fileForResult + " " + lenArray + " " + dateCounter() + '.txt', "w")
-
-    valueForFirstColumn = getTextForFirstColumn()
-
-    #iii = ''
-
-    for i in arrayWithStrings:
-        ii = str(i)
-        #iii = '\t' + ii + '\n' #new code!
-        iii = valueForFirstColumn[:-1] + ii + '\n'
-        fResult.write(iii)
-
-    fResult.close()
 #+++++++++++++++++++++++++++++++++++++++++++++++++++
 
 root = Tk()
@@ -789,7 +769,7 @@ bLoadDB.grid(row=13, column=1, sticky=W)
 bSaveDB = Button(text="___Save To Database___", command=saveCurrentTuple_1ToFileDB)
 bSaveDB.grid(row=11, column=2, sticky=W)
 
-bAddToDB = Button(text="___Add To Database___", command=justDoItFromGetText_BoxesPalettes)
+bAddToDB = Button(text="___Add To Database___", command=justDoIt)
 bAddToDB.grid(row=12, column=2, sticky=W)
 
 bFindInTuple = Button(text="Find in Database \n(tuple_1)", command=findInTuple_1FromTextField)
@@ -799,7 +779,7 @@ bFindInTupleSirius = Button(text="Find for SIRIUS", command=findInTuple_1FromTex
 bFindInTupleSirius.grid(row=14, column=4, sticky=W)
 
 
-bDelFromDB = Button(text="Delete Finded Codes From Database", command=justDoItFromGetText_BoxesPalettes)
+bDelFromDB = Button(text="Delete Finded Codes From Database", command=justDoIt)
 bDelFromDB.grid(row=10, column=1, sticky=W)
 
 
