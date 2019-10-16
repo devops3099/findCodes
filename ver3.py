@@ -1,4 +1,4 @@
-# !/usr/bin/python3
+ # !/usr/bin/python3
 #coding: UTF-8
 from tkinter import *
 from tkinter import filedialog as fd
@@ -465,12 +465,11 @@ def findInTuple_1FromTextFieldSiriusNew():
         print('1111 LEN tuple_1 = ',len(tuple_1))
 
     #del all_list[:]
+    arrForZhazhda025 = {None:{None:[None]}}
+    dictForDelete = {None:{None:[None]}}
 
     gTFF = re.findall(r'\w+', getTextForSearchingSIRIUS( textSirius1Find ))
-    #gTFF = []
-
-    arrForZhazhda025 = {None:{None:[None]}}
-    funcForFillarrForZhazhda025(gTFF, arrForZhazhda025)
+    funcForFillarrForZhazhda025(gTFF, arrForZhazhda025, dictForDelete )
     #del arrForZhazhda025[:]
     #"""
 
@@ -490,6 +489,7 @@ def findInTuple_1FromTextFieldSiriusNew():
 
     #print("valueForFirstColumn = ", valueForFirstColumn)
     arrForZhazhda025.pop(None)
+    dictForDelete.pop(None)
     print('LEN arrForZhazhda025 = \n', len(arrForZhazhda025))
     #print('arrForZhazhda025 = \n', arrForZhazhda025)
     countResultArr = 0
@@ -515,13 +515,14 @@ def findInTuple_1FromTextFieldSiriusNew():
     print('\n________________________________')
     #listTuple_1_AllValuesAndKeys(tuple_1)
 
-def funcForFillarrForZhazhda025(listGTFF, arrZhazhda):
+def funcForFillarrForZhazhda025(listGTFF, arrZhazhda, arrDelete):
         for i in listGTFF:
                 strForCurrent = ''
                 if i in tuple_1:# if palet is finded
                         for h in tuple_1[i]:
                                 for g in tuple_1[str(i)][str(h)]:
                                         functionForTryAddToTuple( i, h , g, arrZhazhda )
+                                        functionForTryAddToTuple( i, h , g, arrDelete )
                                         #arrZhazhda.append(tuple_1[i])
                                         strForCurrent = i + ' is finded! '
                 else:
@@ -529,6 +530,7 @@ def funcForFillarrForZhazhda025(listGTFF, arrZhazhda):
                                 if i in tuple_1[j]:
                                         for g in tuple_1[j][i]:
                                                 functionForTryAddToTuple( j, i , g, arrZhazhda )
+                                                functionForTryAddToTuple( j, i , g, arrDelete )
                                 else:
                                         strForCurrent = 'No such {} box or palet'.format(i)
                 r = 'noThirdColumn'
@@ -536,11 +538,80 @@ def funcForFillarrForZhazhda025(listGTFF, arrZhazhda):
                         if g == i:
                                 for cc in tuple_1[r][g]:
                                         functionForTryAddToTuple( r, g , cc, arrZhazhda )
+                                        functionForTryAddToTuple( r, g , cc, arrDelete )
                                 #arrZhazhda.append(tuple_1[i])
                                 strForCurrent = i + ' is finded! '
                                                 
         # if strForCurrent != '':
             # print(strForCurrent)
+#+++++++++++++++++++++++++++++++++++++++++++++++++++
+# save text for name result file
+def getTextForResultFile():
+    rr = nameForResultFile.get(1.0, END)
+    return rr[:-1]
+#+++++++++++++++++++++++++++++++++++++++++++++++++++
+# save text for SIRIUS number strings and values for searching
+def getTextForSIRIUSstring(numberOfString):
+    nOS = numberOfString.get(1.0, END)
+    print(nOS[:-1])
+    return nOS[:-1]
+
+def getTextForSIRIUSFind(searchString):
+    tSOF = searchString.get(1.0, END)
+    print(tSOF[:-1])
+    return tSOF[:-1]
+
+global listFindedResultSIRIUS
+listFindedResultSIRIUS = []
+def getAllTextForSearchSIRIUStest():
+        textForFirstColumn1 = textSirius1.get(1.0, END)
+        textForSearching1 = textSirius1Find.get(1.0, END)
+        textForFirstColumn2 = textSirius2.get(1.0, END)
+        textForSearching2 = textSirius2Find.get(1.0, END)
+        textForFirstColumn3 = textSirius3.get(1.0, END)
+        textForSearching3 = textSirius3Find.get(1.0, END)
+        textForFirstColumn4 = textSirius4.get(1.0, END)
+        textForSearching4 = textSirius4Find.get(1.0, END)
+        textForFirstColumn5 = textSirius5.get(1.0, END)
+        textForSearching5 = textSirius5Find.get(1.0, END)
+
+
+'''
+getAllTextForSearchSIRIUS(textForFirstColumn1, textForSearching1)
+getAllTextForSearchSIRIUS(textForFirstColumn2, textForSearching2)
+getAllTextForSearchSIRIUS(textForFirstColumn3, textForSearching3)
+getAllTextForSearchSIRIUS(textForFirstColumn4, textForSearching4)
+getAllTextForSearchSIRIUS(textForFirstColumn5, textForSearching5)
+'''
+def commandSiriusString():
+    getTextForSIRIUSstring(textSirius1)
+
+def commandSiriusFind():
+    getTextForSIRIUSFind(textSirius1Find)
+#+++++++++++++++++++++++++++++++++++++++++++++++++++
+#+++++++++++++++++++++++++++++++++++++++++++++++++++
+#name for RESULT file + save RESULT file
+def openResultFileAndSaveForSIRIUS( arrayWithStrings, lenArray ):
+    fileForResult = getTextForResultFile()
+
+    if fileForResult != '':
+        fResult = open(fileForResult + " " + lenArray + " " + dateCounter() + '.txt', "w")
+    else:
+        fileForResult = 'result'
+        fResult = open(fileForResult + " " + lenArray + " " + dateCounter() + '.txt', "w")
+
+    valueForFirstColumn = getTextForFirstColumn()
+
+    #iii = ''
+
+    for i in arrayWithStrings:
+        ii = str(i)
+        #iii = '\t' + ii + '\n' #new code!
+        iii = valueForFirstColumn[:-1] + ii + '\n'
+        fResult.write(iii)
+
+    fResult.close()
+#+++++++++++++++++++++++++++++++++++++++++++++++++++
 
 def openListFile():
         global fileForList
@@ -931,73 +1002,7 @@ def getTextForFirstColumn():
         ff = '1\n'
     return ff
 #+++++++++++++++++++++++++++++++++++++++++++++++++++
-# save text for name result file
-def getTextForResultFile():
-    rr = nameForResultFile.get(1.0, END)
-    return rr[:-1]
-#+++++++++++++++++++++++++++++++++++++++++++++++++++
-# save text for SIRIUS number strings and values for searching
-def getTextForSIRIUSstring(numberOfString):
-    nOS = numberOfString.get(1.0, END)
-    print(nOS[:-1])
-    return nOS[:-1]
 
-def getTextForSIRIUSFind(searchString):
-    tSOF = searchString.get(1.0, END)
-    print(tSOF[:-1])
-    return tSOF[:-1]
-
-global listFindedResultSIRIUS
-listFindedResultSIRIUS = []
-def getAllTextForSearchSIRIUStest():
-        textForFirstColumn1 = textSirius1.get(1.0, END)
-        textForSearching1 = textSirius1Find.get(1.0, END)
-        textForFirstColumn2 = textSirius2.get(1.0, END)
-        textForSearching2 = textSirius2Find.get(1.0, END)
-        textForFirstColumn3 = textSirius3.get(1.0, END)
-        textForSearching3 = textSirius3Find.get(1.0, END)
-        textForFirstColumn4 = textSirius4.get(1.0, END)
-        textForSearching4 = textSirius4Find.get(1.0, END)
-        textForFirstColumn5 = textSirius5.get(1.0, END)
-        textForSearching5 = textSirius5Find.get(1.0, END)
-
-
-'''
-getAllTextForSearchSIRIUS(textForFirstColumn1, textForSearching1)
-getAllTextForSearchSIRIUS(textForFirstColumn2, textForSearching2)
-getAllTextForSearchSIRIUS(textForFirstColumn3, textForSearching3)
-getAllTextForSearchSIRIUS(textForFirstColumn4, textForSearching4)
-getAllTextForSearchSIRIUS(textForFirstColumn5, textForSearching5)
-'''
-def commandSiriusString():
-    getTextForSIRIUSstring(textSirius1)
-
-def commandSiriusFind():
-    getTextForSIRIUSFind(textSirius1Find)
-
-#+++++++++++++++++++++++++++++++++++++++++++++++++++
-#name for RESULT file + save RESULT file
-def openResultFileAndSaveForSIRIUS( arrayWithStrings, lenArray ):
-    fileForResult = getTextForResultFile()
-
-    if fileForResult != '':
-        fResult = open(fileForResult + " " + lenArray + " " + dateCounter() + '.txt', "w")
-    else:
-        fileForResult = 'result'
-        fResult = open(fileForResult + " " + lenArray + " " + dateCounter() + '.txt', "w")
-
-    valueForFirstColumn = getTextForFirstColumn()
-
-    #iii = ''
-
-    for i in arrayWithStrings:
-        ii = str(i)
-        #iii = '\t' + ii + '\n' #new code!
-        iii = valueForFirstColumn[:-1] + ii + '\n'
-        fResult.write(iii)
-
-    fResult.close()
-#+++++++++++++++++++++++++++++++++++++++++++++++++++
 #+++++++++++++++++++++++++++++++++++++++++++++++++++
 #name for RESULT file + save RESULT file
 def openResultFileAndSave( arrayWithStrings, lenArray ):
