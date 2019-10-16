@@ -27,6 +27,11 @@ tuple_1 = {None:{None:[None]}}
 global tuple_forDeleting
 tuple_forDeleting = {None:{None:[None]}}
 
+global arrForZhazhda025
+arrForZhazhda025 = {None:{None:[None]}}
+
+global listForFindedResults
+listForFindedResults = {}
 #=========================================================================
 # SAVE ONLY CODES FROM TXT FILES
 def saveOnlyCodesFromFiles(filename):
@@ -127,9 +132,6 @@ def openTakeTextFromTXTFile(listForNamesOfTXTFiles):
 
 #=========================================================================
 #=========================================================================
-#global all_list
-global all_source_list
-all_source_list = []#ALL FILE source
 
 global all_from_FileDB
 all_from_FileDB = {}#ALL FILE source
@@ -150,7 +152,7 @@ def saveCurrentTuple_1ToFileDB():
     if lenTuple_1 > 0:
         funcForSaveCurrentTuple_1ToFileDB(tuple_1, file_name)
     else:
-        print('tuple_1 не сформирована или пустая!')
+        print('БАЗА не сформирована или пустая!')#print('tuple_1 не сформирована или пустая!')
     # f = open(file_name, 'w')
     # s = text.get(1.0, END)
     # f.write(s)
@@ -166,7 +168,7 @@ def sortCodesInTuple_1(tuple_1):
         for i in tuple_1:
             for j in tuple_1[i]:
                 tuple_1[i][j].sort(reverse=True)
-        print('TUPLE_1 IS SORTED')
+        print('БАЗА ОТСОРТИРОВАНА!')#print('TUPLE_1 IS SORTED')
 #=========================================================================
 
 #==Function-for-=tryAddToTuple( palet, box, code, tuple_1 )======================================================================
@@ -253,12 +255,13 @@ def delListForFindedCodesToDeleteFromTuple_1(valueForAddTo,listForFindedCodesToD
 
 
 #=========================================================================
+#=========================================================================
+#=========================================================================
 # "Открыть источник кодов" BUTTON
 def openSourceFile():
     #global ccounter
     global fileForSource
     global tuple_1
-    tuple_1 = '0'
     tuple_1 = {None:{None:[None]}}
     #global ccounter_fileOpen
     fileForSource = "0"
@@ -266,21 +269,9 @@ def openSourceFile():
     if fileForSource == '':
         print("Файл не выбран!")
     else:
-        print("fileForSource = ", fileForSource)
-        #del all_source_list[:]
+        print("__название файла: |", fileForSource,'|')#print("fileForSource = ", fileForSource)
         fsource = open(fileForSource, "r")
-        #all_source_list = fsource.read()
-        #all_source_list = re.findall(r'\w+', all_source_list)
-        #print("fsource.read() = ", fsource.read())
-        #print(" !!!!!!!!!!!!!!!!!!!!!!!")
-        print("all_source_list = ", all_source_list)
-        #del all_source_list[:]
         tryAddToTuple(fsource)
-#        for i in fsource:
-#            #ccounter_fileOpen += 1 #--------------------------------------------
-#            all_source_list.append(i)
-#        #print("all_source_list = \n", all_source_list)
-
         print('Added to tuple_1 ')
         print('len(tuple_1) - ', len(tuple_1))
         fsource.close()
@@ -289,6 +280,9 @@ def openSourceFile():
         print(' key None has been deleted from tuple_1')
         print('len(tuple_1) - ', len(tuple_1))
 
+#=========================================================================
+#=========================================================================
+#=========================================================================
 # LOAD DATABASE "Load Database"
 def openFileDB():
     #global ccounter
@@ -297,17 +291,18 @@ def openFileDB():
     nameOfFileDB = "0"
     nameOfFileDB = fd.askopenfilename()
     if nameOfFileDB == '':
-        print("Файл с базой данных не выбран!")
+        print("|Файл с базой данных не выбран!|")
     else:
-        print("nameOfFileDB = ", nameOfFileDB)
+        print('|nameOfFileDB = {0}|'format(nameOfFileDB))
         #del all_from_FileDB[:]
-
         with open(nameOfFileDB, 'rb') as fLoadFromFile:
             data_new = pickle.load(fLoadFromFile)
         global tuple_1
         tuple_1 = data_new
-        print(nameOfFileDB, ' opened and saved to "Tuple_1" len = ', len(tuple_1))
+        print('|{0} opened and saved to "CASH" len = {1}|'.format(nameOfFileDB,len(tuple_1)))
 
+#=========================================================================
+#=========================================================================
 def findInTuple_1FromTextField():
     #ccounter = 0
     #all_list = []       #ALL FILE list
@@ -360,6 +355,8 @@ def findInTuple_1FromTextField():
 
     fResult.close()
 
+#=========================================================================
+#=========================================================================
 def findInTuple_1FromTextFieldSirius():
     #ccounter = 0
     #all_list = []       #ALL FILE list
@@ -434,7 +431,9 @@ def findInTuple_1FromTextFieldSirius():
     print("\nВСЕГО :", countResultArr, ' ', len(arrForZhazhda025))
 
     fResult.close()
-
+#=========================================================================
+#=========================================================================
+#=========================================================================
 def getFirstColumnForSearchSIRIUS( firstColumn ):
         textForFirstColumn = firstColumn.get(1.0, END)
         if textForFirstColumn:
@@ -444,7 +443,7 @@ def getFirstColumnForSearchSIRIUS( firstColumn ):
 def getTextForSearchingSIRIUS( forSearching ):
         textForSearching = forSearching.get(1.0, END)
         if textForSearching:
-                print('textForSearching = ', textForSearching)
+                print('|BOX/PAL: |', textForSearching)#print('textForSearching = ', textForSearching)
                 return textForSearching
 
 def listTuple_1_AllValuesAndKeys(arrForZhazhda025):
@@ -455,73 +454,92 @@ def listTuple_1_AllValuesAndKeys(arrForZhazhda025):
             for k in arrForZhazhda025[i][j]:
                 print('=========', k)
 
-def findInTuple_1FromTextFieldSiriusNew():
-    #ccounter = 0
-    #all_list = []       #ALL FILE list
-    if len(tuple_1) < 2:
-        #return 'Tuple_1 is empty!'
-        print('_____LEN tuple_1 = ',len(tuple_1))
-    else:
-        print('1111 LEN tuple_1 = ',len(tuple_1))
+def forCycleAllSearchFieldSIRIUS(varGTFF, varTextSiriusFind, arrZhazhda,dictDelete):
+        varGTFF = re.findall(r'\w+', getTextForSearchingSIRIUS( varTextSiriusFind ))
+        funcForFillarrForZhazhda025(varGTFF, arrZhazhda, dictDelete )
 
-    #del all_list[:]
-    arrForZhazhda025 = {None:{None:[None]}}
-    dictForDelete = {None:{None:[None]}}
-
-    gTFF = re.findall(r'\w+', getTextForSearchingSIRIUS( textSirius1Find ))
-    funcForFillarrForZhazhda025(gTFF, arrForZhazhda025, dictForDelete )
-    #del arrForZhazhda025[:]
-    #"""
-
-    print('len(arrForZhazhda025) = ', len(arrForZhazhda025))
-
-    currentDate = datetime.datetime.now()
-    fullDate = str(currentDate.year) + "_" + str(currentDate.month) + "_" + str(currentDate.day) + " " + str(currentDate.hour) + "-" + str(currentDate.minute) + "-" + str(currentDate.second)
-
-    fileForResult = getTextForResultFile()
-    if fileForResult != '':
-        fResult = open(fileForResult + " " + str(len(arrForZhazhda025)) + " " + fullDate + '.txt', "w")
-    else:
-        fileForResult = 'result'
-        fResult = open(fileForResult + " " + str(len(arrForZhazhda025)) + " " + fullDate + '.txt', "w")
-
-    valueForFirstColumn = getFirstColumnForSearchSIRIUS( textSirius1 )
-
-    #print("valueForFirstColumn = ", valueForFirstColumn)
-    arrForZhazhda025.pop(None)
-    dictForDelete.pop(None)
-    print('LEN arrForZhazhda025 = \n', len(arrForZhazhda025))
-    #print('arrForZhazhda025 = \n', arrForZhazhda025)
-    countResultArr = 0
-    for i in arrForZhazhda025:
-        for j in arrForZhazhda025[i]:
-            for h in arrForZhazhda025[i][j]:
-                countResultArr += 1
-                #ii = str(i)
-                #rtrt = re.findall(r'\w+', ii)
-                #iii = '\t' + h + '\n' #new code!
-                if i == 'noThirdColumn':
-                        iii = valueForFirstColumn[:-1] + '||' + h + '||' + j + '\n'
+def SAVE_TO_FILE_FromFindedList(fResult, arrZhazhda):
+        if fResult:
+                if arrZhazhda:
+                        #valueForFirstColumn = getFirstColumnForSearchSIRIUS( varTextSiriusX )
+                        countResultArr = 0
+                        for kkey in arrZhazhda:
+                                for i in arrZhazhda[kkey]:
+                                        for j in arrZhazhda[kkey][i]:
+                                                for h in arrZhazhda[kkey][i][j]:
+                                                        countResultArr += 1
+                                                        #ii = str(i)
+                                                        #rtrt = re.findall(r'\w+', ii)
+                                                        #iii = '\t' + h + '\n' #new code!
+                                                        if i == 'noThirdColumn':
+                                                                iii = kkey + '||' + h + '||' + j + '\n'
+                                                        else:
+                                                                iii = [kkey] + '||' + h + '||' + j + '||' + i + '\n'
+                                                        fResult.write(iii)
+                                print("\n", kkey, " ВСЕГО :", countResultArr, ' ', len(arrZhazhda[kkey]))
+                                #print("\nВСЕГО :", countResultArr, ' ', len(arrZhazhda[kkey]))
+                                fResult.close()
+                                #listTuple_1_AllValuesAndKeys(arrZhazhda)
+                                print('\n________________________________')
                 else:
-                        iii = valueForFirstColumn[:-1] + '||' + h + '||' + j + '||' + i + '\n'
-                fResult.write(iii)
-    #"""
+                        print('|СПИСОК НАЙДЕННОГО ПУСТ|')
+        else:
+                print('|Файл для сохранения не открыт|')
 
 
-    print("\nВСЕГО :", countResultArr, ' ', len(arrForZhazhda025))
+def copyToListForFindedResultsSIRIUS(whatToCopy, varTextSiriusX):
+        global listForFindedResults
+        #listForFindedResults = {}
+        whatFirstColumn = getFirstColumnForSearchSIRIUS( varTextSiriusX )
+        listForFindedResults[whatFirstColumn] = whatToCopy
+        
+def findInTuple_1FromTextFieldSiriusNew():# main for NEW find SIRIUS
+        global arrForZhazhda025
+        if len(tuple_1) < 2:
+                print('_____LEN tuple_1 = ',len(tuple_1))
+        else:
+                print('1111 LEN tuple_1 = ',len(tuple_1))
 
-    fResult.close()
-    #listTuple_1_AllValuesAndKeys(arrForZhazhda025)
-    print('\n________________________________')
-    #listTuple_1_AllValuesAndKeys(tuple_1)
+        
+        arrForZhazhda025 = {None:{None:[None]}}
+        dictForDelete = {None:{None:[None]}}
+        listForFindedResults = {}
+        
+        gTFF = []
+        #arrZhazhda list for finded CODES + PALS + BOXES (arrForZhazhda025)
+        forCycleAllSearchFieldSIRIUS(gTFF, textSirius1Find, arrForZhazhda025, dictForDelete)
+        
+        copyToListForFindedResultsSIRIUS(whatToCopy, textSirius1)
+        
+        print('len(arrForZhazhda025) = ', len(arrForZhazhda025))
 
-def funcForFillarrForZhazhda025(listGTFF, arrZhazhda, arrDelete):
+        currentDate = datetime.datetime.now()
+        fullDate = str(currentDate.year) + "_" + str(currentDate.month) + "_" + str(currentDate.day) + " " + str(currentDate.hour) + "-" + str(currentDate.minute) + "-" + str(currentDate.second)
+
+        fileForResult = getTextForResultFile()
+        if fileForResult != '':
+                fResult = open(fileForResult + " " + str(len(arrForZhazhda025)) + " " + fullDate + '.txt', "w")
+        else:
+                fileForResult = 'result'
+                fResult = open(fileForResult + " " + str(len(arrForZhazhda025)) + " " + fullDate + '.txt', "w")
+
+        arrForZhazhda025.pop(None)
+        dictForDelete.pop(None)
+        print('LEN arrForZhazhda025 = \n', len(arrForZhazhda025))
+        #print('arrForZhazhda025 = \n', arrForZhazhda025)
+        
+        
+        SAVE_TO_FILE_FromFindedList(fResult, listForFindedResults))
+
+def funcForFillarrForZhazhda025(listGTFF, arrDelete):#arrZhazhda list for finded CODES + PALS + BOXES (arrForZhazhda025)
+        global arrForZhazhda025
+        arrForZhazhda025 = {None:{None:[None]}}
         for i in listGTFF:
                 strForCurrent = ''
                 if i in tuple_1:# if palet is finded
                         for h in tuple_1[i]:
                                 for g in tuple_1[str(i)][str(h)]:
-                                        functionForTryAddToTuple( i, h , g, arrZhazhda )
+                                        functionForTryAddToTuple( i, h , g, arrForZhazhda025 )
                                         functionForTryAddToTuple( i, h , g, arrDelete )
                                         #arrZhazhda.append(tuple_1[i])
                                         strForCurrent = i + ' is finded! '
@@ -529,7 +547,7 @@ def funcForFillarrForZhazhda025(listGTFF, arrZhazhda, arrDelete):
                         for j in tuple_1:
                                 if i in tuple_1[j]:
                                         for g in tuple_1[j][i]:
-                                                functionForTryAddToTuple( j, i , g, arrZhazhda )
+                                                functionForTryAddToTuple( j, i , g, arrForZhazhda025 )
                                                 functionForTryAddToTuple( j, i , g, arrDelete )
                                 else:
                                         strForCurrent = 'No such {} box or palet'.format(i)
@@ -537,7 +555,7 @@ def funcForFillarrForZhazhda025(listGTFF, arrZhazhda, arrDelete):
                 for g in tuple_1[r]:
                         if g == i:
                                 for cc in tuple_1[r][g]:
-                                        functionForTryAddToTuple( r, g , cc, arrZhazhda )
+                                        functionForTryAddToTuple( r, g , cc, arrForZhazhda025 )
                                         functionForTryAddToTuple( r, g , cc, arrDelete )
                                 #arrZhazhda.append(tuple_1[i])
                                 strForCurrent = i + ' is finded! '
@@ -619,366 +637,11 @@ def openListFile():
         fileForList = fd.askopenfilename()
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++
-# Сделать пездато! (поиск по 1источнику из файла списка => вывод только КОДЫ
+# Сделать пездато! (поиск по папке среди *.doc => вывод только КОДЫ
 def justDoIt():
-    #"""
-    #fileForSource = "1.txt"
-    #fileForList = "2.txt"
-    #fileForResult = "result.txt"
-    #"""
-    fileForResult = "result"
-
-    flist = open(fileForList, "r")      #list
-    #fResult = open(fileForResult, "w")
-
-    all_list = []       #ALL FILE list
-
-    del all_list[:]
-
-    for i in flist:
-        if re.search(r'\w[а-я]', i):
-            list_arr.append(i)
-            all_list.append(i)
-        if re.search(r'\d{5,}', i):
-            all_list.append(i)
-
-    #save source file to array 'all_source_list'
-
-    zhazhda = "Жажда 025\n"
-    zhazhda_bool = False
-    #fff = 0
-    arrForZhazhda025 = []
-
-    #"""
-    for i in all_list:
-        #if i == zhazhda:
-            #zhazhda_bool = True
-        for j in all_source_list:
-            pat_str = str(i)
-            pat2_str = str(j)
-            listRoad = re.findall(r'\w+', pat_str)  # from list
-            crossRoad = re.findall(r'\w+', pat2_str)# from source
-            for k in crossRoad:
-                    kk = str(k)
-                    for ii in listRoad:
-                        iii = str(ii)
-                        if iii == kk and crossRoad[1] != "1" and crossRoad[1] != "2" and crossRoad[1] != "документа" and crossRoad[1] != "4" and crossRoad[1] != "5":#and iii != "05": #and zhazhda_bool == True
-                            #print("\n\nEEEEEEEEEEEEEEe i = ", iii, "\nCROSSROAD = ", crossRoad[1])
-                            #"""new code!!
-                            #str_crossRoad = "||" + crossRoad[1] + "||" + crossRoad[2]
-                            #arrForZhazhda025.append(str_crossRoad)
-                            #"""#end new code!!
-                            arrForZhazhda025.append(crossRoad[1])#paste old code
-                            #print(crossRoad[1])
-    #zhazhda_bool = False
-    currentDate = datetime.datetime.now()
-    fullDate = str(currentDate.year) + "-" + str(currentDate.month) + "-" + str(currentDate.day) + " " + str(currentDate.hour) + "-" + str(currentDate.minute) + "-" + str(currentDate.second)
-    fResult = open(fileForResult + str(len(arrForZhazhda025)) + " " + fullDate + '.txt', "w")
-
-    for i in arrForZhazhda025:
-        ii = str(i)
-        iii = '\t' + ii + '\n' #new code!
-        #iii = '2' + ii + '\n'
-        fResult.write(iii)
-    #"""
-
-    print("\nВСЕГО :", len(arrForZhazhda025))
-    #print("\n all Source list = \n", all_list)
-    #if tumblerSourceFileOpened == True or len(all_source_list) > 0:
-        #fsource.close()
-        #tumblerSourceFileOpened == False
-    flist.close()
-    fResult.close()
+    print('in development')
 #+++++++++++++++++++++++++++++++++++++++++++++++++++
 
-# Сделать пездато! с коробками (поиск по 1источнику из файла списка => вывод только КОДЫ + КОРОБКИ
-def justDoItBoxes():
-
-    fileForResult = "result"
-
-    flist = open(fileForList, "r")      #list
-    #fResult = open(fileForResult, "w")
-
-    all_list = []       #ALL FILE list
-
-    del all_list[:]
-
-    for i in flist:
-        if re.search(r'\w[а-я]', i):
-            list_arr.append(i)
-            all_list.append(i)
-        if re.search(r'\d{5,}', i):
-            all_list.append(i)
-
-    #save source file to array 'all_source_list'
-
-    zhazhda = "Жажда 025\n"
-    zhazhda_bool = False
-    #fff = 0
-    arrForZhazhda025 = []
-
-    #"""
-    for i in all_list:
-        #if i == zhazhda:
-            #zhazhda_bool = True
-        for j in all_source_list:
-            pat_str = str(i)
-            pat2_str = str(j)
-            listRoad = re.findall(r'\w+', pat_str)  # from list
-            crossRoad = re.findall(r'\w+', pat2_str)# from source
-            for k in crossRoad:
-                    kk = str(k)
-                    for ii in listRoad:
-                        iii = str(ii)
-                        if iii == kk and crossRoad[1] != "1" and crossRoad[1] != "2" and crossRoad[1] != "документа" and crossRoad[1] != "4" and crossRoad[1] != "5":#and iii != "05": #and zhazhda_bool == True
-                            #print("\n\nEEEEEEEEEEEEEEe i = ", iii, "\nCROSSROAD = ", crossRoad[1])
-                            #"""new code!!
-                            str_crossRoad = "||" + crossRoad[1] + "||" + crossRoad[2]
-                            arrForZhazhda025.append(str_crossRoad)
-                            #"""#end new code!!
-                            #arrForZhazhda025.append(crossRoad[1])#paste old code
-                            #print(crossRoad[1])
-    #zhazhda_bool = False
-    currentDate = datetime.datetime.now()
-    fullDate = str(currentDate.year) + "-" + str(currentDate.month) + "-" + str(currentDate.day) + " " + str(currentDate.hour) + "-" + str(currentDate.minute) + "-" + str(currentDate.second)
-    fResult = open(fileForResult + str(len(arrForZhazhda025)) + " " + fullDate + '.txt', "w")
-
-    valueForFirstColumn = getTextForFirstColumn()
-    for i in arrForZhazhda025:
-        ii = str(i)
-        #iii = '\t' + ii + '\n' #new code!
-        iii = valueForFirstColumn[:-1] + ii + '\n'
-        fResult.write(iii)
-    #"""
-
-    print("\nВСЕГО :", len(arrForZhazhda025))
-    #print("\n all Source list = \n", all_list)
-    #if tumblerSourceFileOpened == True or len(all_source_list) > 0:
-        #fsource.close()
-        #tumblerSourceFileOpened == False
-    flist.close()
-    fResult.close()
-#+++++++++++++++++++++++++++++++++++++++++++++++++++
-
-# Сделать пездато! с коробками и паллетами (поиск по 1источнику из файла списка => вывод только КОДЫ + КОРОБКИ + ПАЛЛЕТЫ
-def justDoItPalettes():
-    #"""
-    #fileForSource = "1.txt"
-    #fileForList = "2.txt"
-    #fileForResult = "result.txt"
-    #"""
-    fileForResult = "result"
-
-    flist = open(fileForList, "r")      #list
-    #fResult = open(fileForResult, "w")
-
-    all_list = []       #ALL FILE list
-
-    del all_list[:]
-
-    for i in flist:
-        if re.search(r'\w[а-я]', i):
-            list_arr.append(i)
-            all_list.append(i)
-        if re.search(r'\d{5,}', i):
-            all_list.append(i)
-
-    #save source file to array 'all_source_list'
-
-    zhazhda = "Жажда 025\n"
-    zhazhda_bool = False
-    #fff = 0
-    arrForZhazhda025 = []
-
-    #"""
-    for i in all_list:
-        #if i == zhazhda:
-            #zhazhda_bool = True
-        for j in all_source_list:
-            pat_str = str(i)
-            pat2_str = str(j)
-            listRoad = re.findall(r'\w+', pat_str)  # from list
-            crossRoad = re.findall(r'\w+', pat2_str)# from source
-            for k in crossRoad:
-                    kk = str(k)
-                    for ii in listRoad:
-                        iii = str(ii)
-                        if iii == kk and crossRoad[1] != "1" and crossRoad[1] != "2" and crossRoad[1] != "документа" and crossRoad[1] != "4" and crossRoad[1] != "5":#and iii != "05": #and zhazhda_bool == True
-                            str_crossRoad = "||" + crossRoad[1] + "||" + crossRoad[2] + "||" + crossRoad[3]
-                            arrForZhazhda025.append(str_crossRoad)
-                            #"""#end new code!!
-                            #arrForZhazhda025.append(crossRoad[1])#paste old code
-                            #print(crossRoad[1])
-    #zhazhda_bool = False
-    currentDate = datetime.datetime.now()
-    fullDate = str(currentDate.year) + "-" + str(currentDate.month) + "-" + str(currentDate.day) + " " + str(currentDate.hour) + "-" + str(currentDate.minute) + "-" + str(currentDate.second)
-    fResult = open(fileForResult + str(len(arrForZhazhda025)) + " " + fullDate + '.txt', "w")
-
-    valueForFirstColumn = getTextForFirstColumn()
-    for i in arrForZhazhda025:
-        ii = str(i)
-        #iii = '\t' + ii + '\n' #new code!
-        iii = valueForFirstColumn[:-1] + ii + '\n'
-        fResult.write(iii)
-    #"""
-
-    print("\nВСЕГО :", len(arrForZhazhda025))
-    #print("\n all Source list = \n", all_list)
-    #if tumblerSourceFileOpened == True or len(all_source_list) > 0:
-        #fsource.close()
-        #tumblerSourceFileOpened == False
-    flist.close()
-    fResult.close()
-#+++++++++++++++++++++++++++++++++++++++++++++++++++
-# Поиск по тексту! с коробками + паллеты (поиск по 1источнику из текста => вывод КОДЫ + КОРОБКИ + ПАЛЛЕТЫ
-def justDoItFromGetText_BoxesPalettes():
-
-    global ccounter
-
-    all_list = []       #ALL FILE list
-
-    del all_list[:]
-
-    gTFF = re.findall(r'\w+', getTextFromField())
-
-    arrForZhazhda025 = []
-
-    for i in gTFF:
-        for j in all_source_list:
-            ccounter += 1 #--------------------------------------------
-            pat2_str = str(j)
-            crossRoad = re.findall(r'\w+', pat2_str)# from source
-
-            if len(crossRoad) < 3: continue
-            if len(crossRoad) == 3:
-                if i == crossRoad[2]:# or i == crossRoad[3]:
-                    str_crossRoad = "||" + crossRoad[1] + "||" + crossRoad[2] + "||" + crossRoad[3]
-                    #str_crossRoad = crossRoad[1]
-                    arrForZhazhda025.append(str_crossRoad)
-            if len(crossRoad) > 3:
-                if i == crossRoad[2] or i == crossRoad[3]:
-                    str_crossRoad = "||" + crossRoad[1] + "||" + crossRoad[2] + "||" + crossRoad[3]
-                    #str_crossRoad = crossRoad[1]
-                    arrForZhazhda025.append(str_crossRoad)
-
-
-    #zhazhda_bool = False
-
-    currentDate = datetime.datetime.now()
-    fullDate = str(currentDate.year) + str(currentDate.month) + str(currentDate.day) + " " + str(currentDate.hour) + "-" + str(currentDate.minute) + "-" + str(currentDate.second)
-
-    fileForResult = getTextForResultFile()
-    if fileForResult != '':
-        fResult = open(fileForResult + " " + str(len(arrForZhazhda025)) + " " + fullDate + '.txt', "w")
-    else:
-        fileForResult = 'result'
-        fResult = open(fileForResult + " " + str(len(arrForZhazhda025)) + " " + fullDate + '.txt', "w")
-
-    valueForFirstColumn = getTextForFirstColumn()
-
-    print("valueForFirstColumn = ", valueForFirstColumn)
-    for i in arrForZhazhda025:
-        #ccounter += 1 #--------------------------------------------
-        ii = str(i)
-        #iii = '\t' + ii + '\n' #new code!
-        iii = valueForFirstColumn[:-1] + ii + '\n'
-        fResult.write(iii)
-    #"""
-
-    print("\nВСЕГО :", len(arrForZhazhda025))
-    #print("ccounter = ", ccounter, "\ncounter_fileOpen = ", ccounter_fileOpen)
-    #print("ccounter = ", ccounter, "\ncounter_fileOpen = ", ccounter_fileOpen)
-    fResult.close()
-#+++++++++++++++++++++++++++++++++++++++++++++++++++
-# Поиск по тексту!КОДЫ(поиск по 1источнику из текста => вывод КОДЫ
-def justDoItFromGetText_Codes():
-    #ccounter = 0
-    all_list = []       #ALL FILE list
-
-    del all_list[:]
-
-    gTFF = re.findall(r'\w+', getTextFromField())
-
-    arrForZhazhda025 = []
-    del arrForZhazhda025[:]
-    #"""
-    for i in gTFF:
-        for j in all_source_list:
-            pat2_str = str(j)
-            crossRoad = re.findall(r'\w+', pat2_str)# from source
-            if len(crossRoad) < 3: continue
-            if len(crossRoad) == 3:
-                if i == crossRoad[2]:# or i == crossRoad[3]:
-                    #str_crossRoad = "||" + crossRoad[1] + "||" + crossRoad[2] + "||" + crossRoad[3]
-                    str_crossRoad = crossRoad[1]
-                    arrForZhazhda025.append(str_crossRoad)
-            if len(crossRoad) > 3:
-                if i == crossRoad[2] or i == crossRoad[3]:
-                    #str_crossRoad = "||" + crossRoad[1] + "||" + crossRoad[2] + "||" + crossRoad[3]
-                    str_crossRoad = crossRoad[1]
-                    arrForZhazhda025.append(str_crossRoad)
-    #zhazhda_bool = False
-    currentDate = datetime.datetime.now()
-    fullDate = str(currentDate.year) + str(currentDate.month) + str(currentDate.day) + " " + str(currentDate.hour) + "-" + str(currentDate.minute) + "-" + str(currentDate.second)
-
-    fileForResult = getTextForResultFile()
-    if fileForResult != '':
-        fResult = open(fileForResult + " " + str(len(arrForZhazhda025)) + " " + fullDate + '.txt', "w")
-    else:
-        fileForResult = 'result'
-        fResult = open(fileForResult + " " + str(len(arrForZhazhda025)) + " " + fullDate + '.txt', "w")
-
-    valueForFirstColumn = getTextForFirstColumn()
-
-    #print("valueForFirstColumn = ", valueForFirstColumn)
-    for i in arrForZhazhda025:
-        ii = str(i)
-        iii = '\t' + ii + '\n' #new code!
-        #iii = valueForFirstColumn[:-1] + ii + '\n'
-        fResult.write(iii)
-    #"""
-
-    print("\nВСЕГО :", len(arrForZhazhda025))
-
-    fResult.close()
-#+++++++++++++++++++++++++++++++++++++++++++++++++++
-# Поиск по тексту! с коробками  (поиск по 1источнику из текста => вывод КОДЫ + КОРОБКИ
-def justDoItFromGetText_Codes_Boxes():
-
-    all_list = []       #ALL FILE list
-
-    del all_list[:]
-
-    gTFF = re.findall(r'\w+', getTextFromField())
-    #gTFF.sort(reverse=True)
-    print("\ngTFF = \n", gTFF)
-
-    arrForZhazhda025 = []
-
-    #"""
-    for i in gTFF:
-        for j in all_source_list:
-            pat2_str = str(j)
-            crossRoad = re.findall(r'\w+', pat2_str)# from source
-            if len(crossRoad) < 3: continue
-            if len(crossRoad) == 3:
-                if i == crossRoad[2]:# or i == crossRoad[3]:
-                    str_crossRoad = "||" + crossRoad[1] + "||" + crossRoad[2]
-                    #str_crossRoad = crossRoad[1]
-                    arrForZhazhda025.append(str_crossRoad)
-            if len(crossRoad) > 3:
-                if i == crossRoad[2] or i == crossRoad[3]:
-                    str_crossRoad = "||" + crossRoad[1] + "||" + crossRoad[2]
-                    #str_crossRoad = crossRoad[1]
-                    arrForZhazhda025.append(str_crossRoad)
-
-
-    lengthOf_arrForZhazhda025 = str(len(arrForZhazhda025))
-    openResultFileAndSave( arrForZhazhda025, lengthOf_arrForZhazhda025 )
-
-    print("\nВСЕГО :", lengthOf_arrForZhazhda025)
-
-    #fResult.close()
 #+++++++++++++++++++++++++++++++++++++++++++++++++++
 # save text from field
 def getTextFromField():
@@ -1100,8 +763,10 @@ textSiriusFindLabel5.grid(row=4, column=5, sticky=W)
 
 text1 = Label(root, text='Число 1ый столбец:')
 text1.grid(row=6, column=0, sticky=E)
-numForFirstColumn = Text(width=3, height=1, background = "old lace", foreground = "black")
-numForFirstColumn.grid(row=6, column=1, sticky=W)
+logInfo = Label(width=3, height=1, background = "old lace", foreground = "black")
+logInfo.grid(row=6, column=1, sticky=W)
+#numForFirstColumn = Text(width=3, height=1, background = "old lace", foreground = "black")
+#numForFirstColumn.grid(row=6, column=1, sticky=W)
 
 text2 = Label(root, text='Название файла:')
 text2.grid(row=7, column=0, sticky=E)
@@ -1114,26 +779,8 @@ nameForResultFile.grid(row=7, column=1, sticky=W)
 b1 = Button(text="Открыть источник кодов", command=openSourceFile)
 b1.grid(row=8, sticky=E)
 
-# b2 = Button(text="Окрыть список номеров", command=openListFile)
-# b2.grid(row=8, column=1, sticky=W)
-
 # b3 = Button(text="сделать пездато!", command=justDoIt)
 # b3.grid(row=8, column=2, sticky=W)
-
-# b4 = Button(text="сделать пездато! с коробками", command=justDoItBoxes)
-# b4.grid(row=10, column=1, sticky=W)
-
-# b5 = Button(text="сделать пездато! с палетами", command=justDoItPalettes)
-# b5.grid(row=10, column=2, sticky=W)
-
-# b6 = Button(text="Поиск по тексту ( коды )", command=justDoItFromGetText_Codes)
-# b6.grid(row=11, column=1, sticky=W)
-
-# b7 = Button(text="Поиск по тексту ( +коробки )", command=justDoItFromGetText_Codes_Boxes)
-# b7.grid(row=11, column=2, sticky=W)
-
-# b8 = Button(text="Поиск по тексту ( коробки + палетты )", command=justDoItFromGetText_BoxesPalettes)
-# b8.grid(row=11, column=4, sticky=W)
 
 #====NEW=BUTTONS=ADD=DEL=LOAD=SAVE=================================================================================
 bLoadDB = Button(text="Load Database", command=openFileDB)
