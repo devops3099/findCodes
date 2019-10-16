@@ -272,13 +272,19 @@ def openSourceFile():
         print("__название файла: |", fileForSource,'|')#print("fileForSource = ", fileForSource)
         fsource = open(fileForSource, "r")
         tryAddToTuple(fsource)
-        print('Added to tuple_1 ')
-        print('len(tuple_1) - ', len(tuple_1))
+        #print('Added to tuple_1 ')
+        #print('ВЕС БАЗЫ - ', len(tuple_1))
         fsource.close()
 
         tuple_1.pop(None)
-        print(' key None has been deleted from tuple_1')
-        print('len(tuple_1) - ', len(tuple_1))
+        #print(' key None has been deleted from tuple_1')
+        try:
+                print('коды без палетов и коробок: ', len(tuple_1['noSecondColumn']['onlyCodes']))
+                print('Кол-во палетов и отдельных коробок ( + 1 [отдельные коды] ) - ', len(tuple_1))
+        except KeyError:
+                print('Кол-во палетов и отдельных коробок - ', len(tuple_1))
+                print('кодов без палетов и коробок не найдено')
+                listTuple_1_AllValuesAndKeys(tuple_1)                
 
 #=========================================================================
 #=========================================================================
@@ -358,93 +364,93 @@ def findInTuple_1FromTextField():
 
 #=========================================================================
 #=========================================================================
-def findInTuple_1FromTextFieldSirius():
-    #ccounter = 0
-    #all_list = []       #ALL FILE list
-    if len(tuple_1) < 2:
-        #return 'Tuple_1 is empty!'
-        print('_____LEN tuple_1 = ',len(tuple_1))
-    else:
-        print('1111 LEN tuple_1 = ',len(tuple_1))
-
-    #del all_list[:]
-
-    gTFF = re.findall(r'\w+', getTextFromField())
-
-    arrForZhazhda025 = {None:{None:[None]}}
-    #del arrForZhazhda025[:]
-    #"""
-    for i in gTFF:
-        strForCurrent = ''
-        if i in tuple_1:# if palet is finded
-            boxList = []
-
-            for box in tuple_1[i]:
-                boxList.append(i)
-
-            for h in tuple_1[i]:
-                for g in tuple_1[str(i)][str(h)]:
-                    functionForTryAddToTuple( i, h , g, arrForZhazhda025 )
-            #arrForZhazhda025.append(tuple_1[i])
-            strForCurrent = i + ' is finded! '
-        else:
-            for j in tuple_1:
-                if i in tuple_1[j]:
-                    for g in tuple_1[j][i]:
-                        functionForTryAddToTuple( j, i , g, arrForZhazhda025 )
-                    #arrForZhazhda025.append(tuple_1[i])
-                    strForCurrent = i + ' is finded! '
-                    break
-                else:
-                    strForCurrent = 'No such {} box or palet'.format(i)
-        # if strForCurrent != '':
-            # print(strForCurrent)
-    print('len(arrForZhazhda025) = ', len(arrForZhazhda025))
-
-    currentDate = datetime.datetime.now()
-    fullDate = str(currentDate.year) + str(currentDate.month) + str(currentDate.day) + " " + str(currentDate.hour) + "-" + str(currentDate.minute) + "-" + str(currentDate.second)
-
-    fileForResult = getTextForResultFile()
-    if fileForResult != '':
-        fResult = open(fileForResult + " " + str(len(arrForZhazhda025)) + " " + fullDate + '.txt', "w")
-    else:
-        fileForResult = 'result'
-        fResult = open(fileForResult + " " + str(len(arrForZhazhda025)) + " " + fullDate + '.txt', "w")
-
-    valueForFirstColumn = getTextForFirstColumn()
-
-    #print("valueForFirstColumn = ", valueForFirstColumn)
-    arrForZhazhda025.pop(None)
-    print('LEN arrForZhazhda025 = \n', len(arrForZhazhda025))
-    #print('arrForZhazhda025 = \n', arrForZhazhda025)
-    countResultArr = 0
-    for i in arrForZhazhda025:
-        for j in arrForZhazhda025[i]:
-            for h in arrForZhazhda025[i][j]:
-                countResultArr += 1
-                #ii = str(i)
-                #rtrt = re.findall(r'\w+', ii)
-                #iii = '\t' + h + '\n' #new code!
-                iii = valueForFirstColumn[:-1] + '||' + h + '||' + j + '||' + i + '\n'
-                fResult.write(iii)
-    #"""
-
-    print("\nВСЕГО :", countResultArr, ' ', len(arrForZhazhda025))
-
-    fResult.close()
+##def findInTuple_1FromTextFieldSirius():
+##    #ccounter = 0
+##    #all_list = []       #ALL FILE list
+##    if len(tuple_1) < 2:
+##        #return 'Tuple_1 is empty!'
+##        print('_____LEN tuple_1 = ',len(tuple_1))
+##    else:
+##        print('1111 LEN tuple_1 = ',len(tuple_1))
+##
+##    #del all_list[:]
+##
+##    gTFF = re.findall(r'\w+', getTextFromField())
+##
+##    arrForZhazhda025 = {None:{None:[None]}}
+##    #del arrForZhazhda025[:]
+##    #"""
+##    for i in gTFF:
+##        strForCurrent = ''
+##        if i in tuple_1:# if palet is finded
+##            boxList = []
+##
+##            for box in tuple_1[i]:
+##                boxList.append(i)
+##
+##            for h in tuple_1[i]:
+##                for g in tuple_1[str(i)][str(h)]:
+##                    functionForTryAddToTuple( i, h , g, arrForZhazhda025 )
+##            #arrForZhazhda025.append(tuple_1[i])
+##            strForCurrent = i + ' is finded! '
+##        else:
+##            for j in tuple_1:
+##                if i in tuple_1[j]:
+##                    for g in tuple_1[j][i]:
+##                        functionForTryAddToTuple( j, i , g, arrForZhazhda025 )
+##                    #arrForZhazhda025.append(tuple_1[i])
+##                    strForCurrent = i + ' is finded! '
+##                    break
+##                else:
+##                    strForCurrent = 'No such {} box or palet'.format(i)
+##        # if strForCurrent != '':
+##            # print(strForCurrent)
+##    print('len(arrForZhazhda025) = ', len(arrForZhazhda025))
+##
+##    currentDate = datetime.datetime.now()
+##    fullDate = str(currentDate.year) + str(currentDate.month) + str(currentDate.day) + " " + str(currentDate.hour) + "-" + str(currentDate.minute) + "-" + str(currentDate.second)
+##
+##    fileForResult = getTextForResultFile()
+##    if fileForResult != '':
+##        fResult = open(fileForResult + " " + str(len(arrForZhazhda025)) + " " + fullDate + '.txt', "w")
+##    else:
+##        fileForResult = 'result'
+##        fResult = open(fileForResult + " " + str(len(arrForZhazhda025)) + " " + fullDate + '.txt', "w")
+##
+##    valueForFirstColumn = getTextForFirstColumn()
+##
+##    #print("valueForFirstColumn = ", valueForFirstColumn)
+##    arrForZhazhda025.pop(None)
+##    print('LEN arrForZhazhda025 = \n', len(arrForZhazhda025))
+##    #print('arrForZhazhda025 = \n', arrForZhazhda025)
+##    countResultArr = 0
+##    for i in arrForZhazhda025:
+##        for j in arrForZhazhda025[i]:
+##            for h in arrForZhazhda025[i][j]:
+##                countResultArr += 1
+##                #ii = str(i)
+##                #rtrt = re.findall(r'\w+', ii)
+##                #iii = '\t' + h + '\n' #new code!
+##                iii = valueForFirstColumn[:-1] + '||' + h + '||' + j + '||' + i + '\n'
+##                fResult.write(iii)
+##    #"""
+##
+##    print("\nВСЕГО :", countResultArr, ' ', len(arrForZhazhda025))
+##
+##    fResult.close()
 #=========================================================================
 #=========================================================================
 #=========================================================================
 def getFirstColumnForSearchSIRIUS( firstColumn ):
         textForFirstColumn = firstColumn.get(1.0, END)
         if textForFirstColumn:
-                print('textForFirstColumn = ', textForFirstColumn)
+                #print('|textForFirstColumn = ', textForFirstColumn, '|')
                 return textForFirstColumn[:-1]
 
 def getTextForSearchingSIRIUS( forSearching ):
         textForSearching = forSearching.get(1.0, END)
         if textForSearching:
-                print('|BOX/PAL: |', textForSearching)#print('textForSearching = ', textForSearching)
+                #print('|BOX/PAL: ', textForSearching[:-1], '|')#print('textForSearching = ', textForSearching)
                 return textForSearching
 
 def listTuple_1_AllValuesAndKeys(arrForZhazhda025):
@@ -467,11 +473,13 @@ def forCycleAllSearchFieldSIRIUS(varGTFF, varTextSiriusFind, arrZhazhda,dictDele
 01000000018713119349627272
 '''
 def SAVE_TO_FILE_FromFindedList(ffileOPened, ListALL):
-        print('\n\n LIST ALL\n++++++++++++++++++\n', ListALL)
+        #print('\n\n LIST ALL\n++++++++++++++++++\n', ListALL)
+        listTuple_1_AllValuesAndKeys(ListALL)
         if ffileOPened:
                 if ListALL:
                         countResultArr = 0
                         for kkey in ListALL:
+                                countResultArr = 0
                                 for i in ListALL[kkey]:
                                         for j in ListALL[kkey][i]:
                                                 for h in ListALL[kkey][i][j]:
@@ -482,11 +490,11 @@ def SAVE_TO_FILE_FromFindedList(ffileOPened, ListALL):
                                                         else:
                                                                 iii = str(kkey) + '||' + h + '||' + j + '||' + i + '\n'
                                                         ffileOPened.write(iii)
-                                print("\n", str(kkey), " ВСЕГО :", countResultArr, ' ', len(ListALL[kkey]))
+                                print("|", str(kkey), " ВСЕГО : ", countResultArr, ' ', len(ListALL[kkey]), '|')
                                 #print("\nВСЕГО :", countResultArr, ' ', len(ListALL[kkey]))
                                 
                                 #listTuple_1_AllValuesAndKeys(ListALL)
-                                print('\n________________________________')
+                                print('________________________________')
                 else:
                         print('|СПИСОК НАЙДЕННОГО ПУСТ|')
                 ffileOPened.close()
@@ -560,31 +568,32 @@ def funcForFillarrForZhazhda025(listGTFF, arrDelete):#arrZhazhda list for finded
         global arrForZhazhda025
         global dictForDelete
         arrForZhazhda025 = {None:{None:[None]}}
-        for i in listGTFF:
-                strForCurrent = ''
-                if i in tuple_1:# if palet is finded
-                        for h in tuple_1[i]:
-                                for g in tuple_1[str(i)][str(h)]:
-                                        functionForTryAddToTuple( i, h , g, arrForZhazhda025 )
-                                        functionForTryAddToTuple( i, h , g, arrDelete )
+        if listGTFF:
+                for i in listGTFF:
+                        strForCurrent = ''
+                        if i in tuple_1:# if palet is finded
+                                for h in tuple_1[i]:
+                                        for g in tuple_1[str(i)][str(h)]:
+                                                functionForTryAddToTuple( i, h , g, arrForZhazhda025 )
+                                                functionForTryAddToTuple( i, h , g, arrDelete )
+                                                #arrZhazhda.append(tuple_1[i])
+                                                strForCurrent = i + ' is finded! '
+                        else:
+                                for j in tuple_1:
+                                        if i in tuple_1[j]:
+                                                for g in tuple_1[j][i]:
+                                                        functionForTryAddToTuple( j, i , g, arrForZhazhda025 )
+                                                        functionForTryAddToTuple( j, i , g, arrDelete )
+                                        else:
+                                                strForCurrent = 'No such {} box or palet'.format(i)
+                        r = 'noThirdColumn'
+                        for g in tuple_1[r]:
+                                if g == i:
+                                        for cc in tuple_1[r][g]:
+                                                functionForTryAddToTuple( r, g , cc, arrForZhazhda025 )
+                                                functionForTryAddToTuple( r, g , cc, arrDelete )
                                         #arrZhazhda.append(tuple_1[i])
                                         strForCurrent = i + ' is finded! '
-                else:
-                        for j in tuple_1:
-                                if i in tuple_1[j]:
-                                        for g in tuple_1[j][i]:
-                                                functionForTryAddToTuple( j, i , g, arrForZhazhda025 )
-                                                functionForTryAddToTuple( j, i , g, arrDelete )
-                                else:
-                                        strForCurrent = 'No such {} box or palet'.format(i)
-                r = 'noThirdColumn'
-                for g in tuple_1[r]:
-                        if g == i:
-                                for cc in tuple_1[r][g]:
-                                        functionForTryAddToTuple( r, g , cc, arrForZhazhda025 )
-                                        functionForTryAddToTuple( r, g , cc, arrDelete )
-                                #arrZhazhda.append(tuple_1[i])
-                                strForCurrent = i + ' is finded! '
         arrForZhazhda025.pop(None)
 ##        dictForDelete.pop(None)
                                                 
@@ -609,19 +618,17 @@ def getTextForSIRIUSFind(searchString):
                 print(tSOF[:-1])
                 return tSOF[:-1]
 
-global listFindedResultSIRIUS
-listFindedResultSIRIUS = []
-def getAllTextForSearchSIRIUStest():
-        textForFirstColumn1 = textSirius1.get(1.0, END)
-        textForSearching1 = textSirius1Find.get(1.0, END)
-        textForFirstColumn2 = textSirius2.get(1.0, END)
-        textForSearching2 = textSirius2Find.get(1.0, END)
-        textForFirstColumn3 = textSirius3.get(1.0, END)
-        textForSearching3 = textSirius3Find.get(1.0, END)
-        textForFirstColumn4 = textSirius4.get(1.0, END)
-        textForSearching4 = textSirius4Find.get(1.0, END)
-        textForFirstColumn5 = textSirius5.get(1.0, END)
-        textForSearching5 = textSirius5Find.get(1.0, END)
+##def getAllTextForSearchSIRIUStest():
+##        textForFirstColumn1 = textSirius1.get(1.0, END)
+##        textForSearching1 = textSirius1Find.get(1.0, END)
+##        textForFirstColumn2 = textSirius2.get(1.0, END)
+##        textForSearching2 = textSirius2Find.get(1.0, END)
+##        textForFirstColumn3 = textSirius3.get(1.0, END)
+##        textForSearching3 = textSirius3Find.get(1.0, END)
+##        textForFirstColumn4 = textSirius4.get(1.0, END)
+##        textForSearching4 = textSirius4Find.get(1.0, END)
+##        textForFirstColumn5 = textSirius5.get(1.0, END)
+##        textForSearching5 = textSirius5Find.get(1.0, END)
 
 
 '''
@@ -741,12 +748,16 @@ textSiriusFindLabel5.grid(row=4, column=5, sticky=W)
 
 #==================================
 
-text1 = Label(root, text='Число 1ый столбец:')
-text1.grid(row=6, column=0, sticky=E)
-logInfo = Label(width=3, height=1, background = "old lace", foreground = "black")
-logInfo.grid(row=6, column=1, sticky=W)
+##text1 = Label(root, text='Число 1ый столбец:')
+##text1.grid(row=6, column=0, sticky=E)
 #numForFirstColumn = Text(width=3, height=1, background = "old lace", foreground = "black")
 #numForFirstColumn.grid(row=6, column=1, sticky=W)
+
+logInfotext1 = Label(root, text='forDelete:')
+logInfotext1.grid(row=6, column=0, sticky=E)
+logInfo = Label(text='werwer', width=30, height=1, background = "red", foreground = "black")
+logInfo.grid(row=6, column=1, sticky=W)
+
 
 text2 = Label(root, text='Название файла:')
 text2.grid(row=7, column=0, sticky=E)
@@ -775,8 +786,8 @@ bAddToDB.grid(row=12, column=2, sticky=W)
 bFindInTuple = Button(text="Find in Database \n(tuple_1)", command=findInTuple_1FromTextField)
 bFindInTuple.grid(row=13, column=4, sticky=W)
 
-bFindInTupleSirius = Button(text="Find for SIRIUS", command=findInTuple_1FromTextFieldSirius)
-bFindInTupleSirius.grid(row=14, column=4, sticky=W)
+##bFindInTupleSirius = Button(text="Find for SIRIUS", command=findInTuple_1FromTextFieldSirius)
+##bFindInTupleSirius.grid(row=14, column=4, sticky=W)
 
 
 bDelFromDB = Button(text="Delete Finded Codes From Database", command=justDoIt)
